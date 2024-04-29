@@ -1,9 +1,7 @@
+import AdsPage from "./pages/ads/adsPage";
+
 function App() {
-
-
-  return <div className="App">
-    Hello Syra
-  </div>
+  return <AdsPage />
 }
 
 export default App
