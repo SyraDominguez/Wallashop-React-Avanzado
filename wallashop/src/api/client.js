@@ -6,4 +6,5 @@ export const client = axios.create({
 
 client.interceptors.response.use(response => response.data);
 
-export const setAuthorizationHeader = token => client.defaults.headers.common['Authorization'] = `Bearer ${token}`; 
+export const setAuthorizationHeader = token =>
+  (client.defaults.headers.common['Authorization'] = `Bearer ${token}`);
