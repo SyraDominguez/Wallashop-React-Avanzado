@@ -1,31 +1,18 @@
-import AdsPage from "./pages/ads/adsPage.jsx";
-import Button from "./components/button.jsx";
+import { useState } from "react";
+
+import AdsPage from "./pages/ads/adsPage";
+import LoginPage from "./pages/auth/loginPage";
 
 function App() {
-  return (
-  <div>
-    <Button
-      onClick={() => { 
-        console.log('Click')
-        }}
-        $variant = "primary"
-      >
-          Login
-    </Button>
+  
+    const [isLogged, setIsLogged] = useState(false);
 
-    <Button 
-      onClick={() => { 
-        console.log('Click')
-        }}
-        $variant = "primary"
-        >
-          Register
-    </Button>
+    const handleLogin = () => {
+        setIsLogged(true);
+    }
 
+    return <div> {isLogged ? <AdsPage /> : <LoginPage onLogin = {handleLogin} />}  </div>
 
-    <AdsPage />
-  </div>
-  );
 }
 
 export default App
