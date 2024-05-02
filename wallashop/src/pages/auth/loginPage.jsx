@@ -21,7 +21,7 @@ export default function LoginPage(onLogin) {
     try {
       const response = await login(formValues);
       if (response.status === 200) {
-        onLogin(true);
+        onLogin(false);
       } else {
         console.error("Error al iniciar sesión: ", response.status);
       }

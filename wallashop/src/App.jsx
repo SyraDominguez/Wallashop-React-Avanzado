@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import AdsPage from "./pages/ads/adsPage";
 import LoginPage from "./pages/auth/loginPage";
 
@@ -10,8 +9,19 @@ function App({ isDefaultLogged }) {
     setIsLogged(true);
   };
 
+  const handleLogout = () => {
+    setIsLogged(false);
+  };
+
   return (
-    <div> {isLogged ? <AdsPage /> : <LoginPage onLogin={handleLogin} />} </div>
+    <div>
+      {" "}
+      {isLogged ? (
+        <AdsPage onLogout={handleLogout} />
+      ) : (
+        <LoginPage onLogin={handleLogin} />
+      )}{" "}
+    </div>
   );
 }
 

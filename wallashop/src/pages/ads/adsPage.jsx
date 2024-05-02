@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import styles from './adsPage.module.css';
-import { getLatestAds } from './service';
+import styles from "./adsPage.module.css";
+import { getLatestAds } from "./service";
+import { logout } from "../auth/service";
 
 // const Products = [
 //   {
@@ -56,18 +57,22 @@ import { getLatestAds } from './service';
 //   }
 // ]
 
-
-function AdsPage() {
-
+function AdsPage({ onLogout }) {
   const [products, setProducts] = useState([]);
 
-  useEffect(() => { 
-    getLatestAds().then(ads => setProducts(ads));
-  }, [])
+  useEffect(() => {
+    getLatestAds().then((ads) => setProducts(ads));
+  }, []);
+
+  const handleLogout = async () => {
+    await logout();
+    onLogout();
+  };
 
   return (
     <div className={styles.adsPage}>
       <h1>Ads Page</h1>
+      <button onClick={handleLogout}>Logout</button>
       <ul>
         {products.map((product) => (
           <li key={product.id}>
@@ -75,7 +80,7 @@ function AdsPage() {
             <p>{product.description}</p>
             <p>{product.price}</p>
             <img src={product.photo} alt={product.name} />
-            <p>{product.sale? 'Sale' : 'Buy'}</p>
+            <p>{product.sale ? "Sale" : "Buy"}</p>
             <ul>
               {product.tags.map((tag) => (
                 <li key={tag}>{tag}</li>
@@ -85,8 +90,7 @@ function AdsPage() {
         ))}
       </ul>
     </div>
-  )
+  );
 }
-
 
 export default AdsPage;

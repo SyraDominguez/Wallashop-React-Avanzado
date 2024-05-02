@@ -1,4 +1,4 @@
-import { client, setAuthorizationHeader } from "../../api/client";
+import { client, removeAuthorizationHeader, setAuthorizationHeader } from "../../api/client";
 import storage from "../../storage";
 
 export const login = credentials => {
@@ -8,4 +8,11 @@ export const login = credentials => {
       setAuthorizationHeader(accessToken);
       storage.set('auth', accessToken);
     });
+};
+
+export const logout = () => {
+  return Promise().resolve().then(() => {
+    removeAuthorizationHeader();
+    storage.remove('auth');
+  })
 };
