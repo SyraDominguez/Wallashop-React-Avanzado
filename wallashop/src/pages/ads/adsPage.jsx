@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./adsPage.module.css";
 import { getLatestAds } from "./service";
 import { logout } from "../auth/service";
+import Button from "../../components/button";
 
 // const Products = [
 //   {
@@ -57,6 +58,8 @@ import { logout } from "../auth/service";
 //   }
 // ]
 
+import PropTypes from "prop-types";
+
 function AdsPage({ onLogout }) {
   const [products, setProducts] = useState([]);
 
@@ -72,7 +75,7 @@ function AdsPage({ onLogout }) {
   return (
     <div className={styles.adsPage}>
       <h1>Ads Page</h1>
-      <button onClick={handleLogout}>Logout</button>
+      <Button onClick={handleLogout}>Logout</Button>
       <ul>
         {products.map((product) => (
           <li key={product.id}>
@@ -92,5 +95,9 @@ function AdsPage({ onLogout }) {
     </div>
   );
 }
+
+AdsPage.propTypes = {
+  onLogout: PropTypes.bool,
+};
 
 export default AdsPage;
