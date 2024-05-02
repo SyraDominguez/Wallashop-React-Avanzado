@@ -20,6 +20,7 @@ export default function LoginPage(onLogin) {
     }
   };
 
+  const buttonDisabled = !email || !password;
   return (
     <div>
       <h1>Login</h1>
@@ -44,7 +45,7 @@ export default function LoginPage(onLogin) {
           }}
           required
         />
-        <Button type="submit" $variant="primary">
+        <Button type="submit" $variant="primary" disabled={buttonDisabled}>
           Login
         </Button>
       </form>
