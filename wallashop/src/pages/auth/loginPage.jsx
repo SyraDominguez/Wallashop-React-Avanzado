@@ -3,23 +3,31 @@ import Button from "../../components/button";
 import { login } from "./service";
 
 export default function LoginPage(onLogin) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formValues, setFormValues] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (event) => {
+    setFormValues((currentFormValues) => ({
+      ...currentFormValues,
+      [event.target.name]: event.target.value,
+    }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await login({
-        email,
-        password,
-      });
+      const response = await login(formValues);
       onLogin(true);
     } catch (error) {
-      console.error(error);
+      console.error("Hay un error", error);
     }
+    console.log("Logada");
   };
 
+  const { email, password } = formValues;
   const buttonDisabled = !email || !password;
   return (
     <div>
@@ -30,9 +38,7 @@ export default function LoginPage(onLogin) {
           name="email"
           placeholder="Email"
           value={email}
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
+          onChange={handleChange}
           required
         />
         <input
@@ -40,9 +46,7 @@ export default function LoginPage(onLogin) {
           name="password"
           placeholder="Password"
           value={password}
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
+          onChange={handleChange}
           required
         />
         <Button type="submit" $variant="primary" disabled={buttonDisabled}>
