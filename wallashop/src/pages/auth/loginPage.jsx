@@ -20,7 +20,11 @@ export default function LoginPage(onLogin) {
 
     try {
       const response = await login(formValues);
-      onLogin(true);
+      if (response.status === 200) {
+        onLogin(true);
+      } else {
+        console.error("Error al iniciar sesión: ", response.status);
+      }
     } catch (error) {
       console.error("Hay un error", error);
     }
@@ -29,6 +33,7 @@ export default function LoginPage(onLogin) {
 
   const { email, password } = formValues;
   const buttonDisabled = !email || !password;
+
   return (
     <div>
       <h1>Login</h1>
