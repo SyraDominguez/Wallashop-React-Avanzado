@@ -1,7 +1,13 @@
 import logo from "../../assets/logo-wallashop.svg";
+import { logout } from "../../pages/auth/service";
 import Button from "../button";
 
-export default function Header() {
+export default function Header({ isLogged, onLogout }) {
+  const handleLogout = async () => {
+    await logout();
+    onLogout();
+  };
+
   return (
     <header>
       <div style={{ display: "flex" }}>
@@ -9,10 +15,15 @@ export default function Header() {
           <img
             src={logo}
             alt="logo"
-            style={{ width: "150px", height: "150px" }}
+            style={{ width: "200px", height: "200px" }}
           />
         </div>
         <nav style={{ marginLeft: "auto" }}>
+          {isLogged ? (
+            <Button onClick={handleLogout}>Logout</Button>
+          ) : (
+            <Button $variant="primary">Login</Button>
+          )}
           <div style={{ display: "flex" }}>
             <input
               type="text"

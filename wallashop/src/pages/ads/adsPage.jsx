@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import styles from "./adsPage.module.css";
 import adsData from "./adsTest.json";
 import { getLatestAds } from "./service";
-import { logout } from "../auth/service";
 import Button from "../../components/button";
+import DateTime from "../../components/date";
 
 import Layout from "../../components/layout/layout";
 
-function AdsPage({ onLogout }) {
+function AdsPage(props) {
   const [products, setProducts] = useState(adsData);
 
   useEffect(() => {
@@ -17,27 +17,21 @@ function AdsPage({ onLogout }) {
     });
   }, []);
 
-  const handleLogout = async () => {
-    await logout();
-    onLogout();
-  };
-
   return (
-    <Layout>
+    <Layout title="Anuncios destacados de hoy en tu ciudad" {...props}>
+      <DateTime />
       <div className={styles.adsPage}>
-        <h1>Ads Page</h1>
-        <Button onClick={handleLogout}>Logout</Button>
         <ul className={`${styles.adsGrid} ${styles.adsContainer}`}>
           {products.map((product) => (
-            <li key={product.id} className={styles.adCard}>
-              <h2>{product.name}</h2>
+            <li key={product.name} className={styles.adCard}>
+              <h5>{product.name}</h5>
               <p>{product.description}</p>
-              <p>{product.price}</p>
+              <p>{product.price} €</p>
               <img src={product.photo} alt={product.name} />
-              <p>{product.sale ? "Sale" : "Buy"}</p>
+              <Button>{product.sale ? "Sale" : "Buy"}</Button>
               <ul>
-                {product.tags.map((tag) => (
-                  <li key={tag}>{tag}</li>
+                {product.tags.map((tag, index) => (
+                  <li key={index}>{tag}</li>
                 ))}
               </ul>
             </li>
