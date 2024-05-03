@@ -3,6 +3,7 @@ import AdsPage from "./pages/ads/adsPage";
 import NewAdPage from "./pages/ads/newAdPage";
 import LoginPage from "./pages/auth/loginPage";
 import storage from "./storage";
+import { AuthContext } from "./pages/auth/context";
 
 function App({ isDefaultLogged }) {
   const [isLogged, setIsLogged] = useState(false);
@@ -22,15 +23,23 @@ function App({ isDefaultLogged }) {
     setIsLogged(false);
   };
 
+  const authValue = {
+    isLogged,
+    onLogin: handleLogin,
+    onLogout: handleLogout,
+  };
+
   return (
-    <div>
-      {isLogged ? (
-        // <NewAdPage onLogout={handleLogout} isLogged={isLogged} />
-        <AdsPage onLogout={handleLogout} isLogged={isLogged} />
-      ) : (
-        <LoginPage onLogin={handleLogin} />
-      )}
-    </div>
+    <AuthContext.Provider value={authValue}>
+      <div>
+        {isLogged ? (
+          <NewAdPage />
+        ) : (
+          // <AdsPage />
+          <LoginPage />
+        )}
+      </div>
+    </AuthContext.Provider>
   );
 }
 

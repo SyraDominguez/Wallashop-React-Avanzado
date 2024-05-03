@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import logo from "../../assets/logo-wallashop.svg";
+import { AuthContext } from "../../pages/auth/context";
 import { logout } from "../../pages/auth/service";
 import Button from "../button";
 
-export default function Header({ isLogged, onLogout }) {
+export default function Header() {
+  const { isLogged, onLogout } = useContext(AuthContext);
+
   const handleLogout = async () => {
     await logout();
     onLogout();

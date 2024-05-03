@@ -8,7 +8,7 @@ import DateTime from "../../components/date";
 
 import Layout from "../../components/layout/layout";
 
-function AdsPage(props) {
+function AdsPage() {
   const [products, setProducts] = useState(adsData);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ function AdsPage(props) {
   }, []);
 
   return (
-    <Layout title="Anuncios destacados de hoy en tu ciudad" {...props}>
+    <Layout title="Anuncios destacados de hoy en tu ciudad">
       <DateTime />
       <div className={styles.adsPage}>
         <ul className={`${styles.adsGrid} ${styles.adsContainer}`}>
