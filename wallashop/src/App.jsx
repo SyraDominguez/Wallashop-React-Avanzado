@@ -8,9 +8,9 @@ function App() {
   return (
     <div>
       {isLogged ? (
-        <NewAdPage />
+        // <NewAdPage />
+        <AdsPage />
       ) : (
-        // <AdsPage />
         <LoginPage />
       )}
     </div>
