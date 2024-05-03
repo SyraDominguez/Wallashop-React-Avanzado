@@ -1,8 +1,9 @@
 import { useState } from "react";
 import Button from "../../components/button";
 import { login } from "./service";
+import Layout from "../../components/layout/layout";
 
-export default function LoginPage(onLogin) {
+export default function LoginPage({ onLogin }) {
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
@@ -17,17 +18,11 @@ export default function LoginPage(onLogin) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    try {
-      const response = await login(formValues);
-      if (response.status === 200) {
-        onLogin(false);
-      } else {
-        console.error("Error al iniciar sesión: ", response.status);
-      }
-    } catch (error) {
-      console.error("Hay un error", error);
+    await login(formValues);
+    if (typeof onLogin === "function") {
+      onLogin(true);
     }
+
     console.log("Logada");
   };
 
@@ -35,29 +30,31 @@ export default function LoginPage(onLogin) {
   const buttonDisabled = !email || !password;
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={password}
-          onChange={handleChange}
-          required
-        />
-        <Button type="submit" $variant="primary" disabled={buttonDisabled}>
-          Login
-        </Button>
-      </form>
-    </div>
+    <Layout>
+      <div>
+        <h1>Login</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={email}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={password}
+            onChange={handleChange}
+            required
+          />
+          <Button type="submit" $variant="primary" disabled={buttonDisabled}>
+            Login
+          </Button>
+        </form>
+      </div>
+    </Layout>
   );
 }

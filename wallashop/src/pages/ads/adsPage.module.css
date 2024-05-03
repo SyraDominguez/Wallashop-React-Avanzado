@@ -18,3 +18,68 @@ ul {
 .adsPage {
   color: rgb(79, 211, 211);
 }
+
+body {
+  background-color: rgb(255, 255, 255);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: rgb(0, 0, 0);
+}
+
+ul {
+  list-style: none;
+}
+
+.adsPage {
+  color: rgb(79, 211, 211);
+}
+
+.adsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.adCard {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  max-width: 100px;
+}
+
+.adCard img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.adCard h2 {
+  margin: 0 0 10px 0;
+}
+
+.adCard p {
+  margin: 0 0 10px 0;
+}
+
+.adCard img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.adCard h2 {
+  margin: 0 0 10px 0;
+}
+
+.adCard p {
+  margin: 0 0 10px 0;
+}
