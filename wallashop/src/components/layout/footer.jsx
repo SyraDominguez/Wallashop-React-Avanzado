@@ -1,3 +1,13 @@
 export default function Footer() {
-  return <footer> @2024 Wallashop Camarma </footer>;
+  return (
+    <footer
+      style={{
+        textAlign: "center",
+        fontWeight: "bold",
+        color: "rgb(79, 211, 211)",
+      }}
+    >
+      Wallashop®2024
+    </footer>
+  );
 }
