@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Airpods",
+    "sale": false,
+    "price": 80,
+    "photo": "../../assets/adsImages/airpods.jpg",
+    "tags": [
+      "work",
+      "lifestyle"
+    ]
+  },
+  {
+    "name": "Alexa",
+    "sale": true,
+    "price": 125.75,
+    "photo": "../../assets/adsImages/alexa.jpg",
+    "tags": [
+      "lifestyle",
+      "mobile"
+    ]
+  },
+  {
+    "name": "Camara Canon",
+    "sale": true,
+    "price": 535,
+    "photo": "../../assets/adsImages/canon.jpg",
+    "tags": [
+      "work",
+      "lifestyle"
+    ]
+  },
+  {
+    "name": "Toyota CH-R",
+    "sale": false,
+    "price": 35700,
+    "photo": "../../assets/adsImages/chr.jpg",
+    "tags": [
+      "work",
+      "motor"
+    ]
+  },
+  {
+    "name": "MacBook Pro",
+    "sale": false,
+    "price": 850,
+    "photo": "../../assets/adsImages/macbook_pro.jpg",
+    "tags": [
+      "work",
+      "lifestyle"
+    ]
+  }
+]
