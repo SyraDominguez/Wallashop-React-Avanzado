@@ -1,11 +1,10 @@
-import { useContext } from "react";
 import logo from "../../assets/logo-wallashop.svg";
-import { AuthContext } from "../../pages/auth/context";
+import { useAuth } from "../../pages/auth/context";
 import { logout } from "../../pages/auth/service";
 import Button from "../button";
 
 export default function Header() {
-  const { isLogged, onLogout } = useContext(AuthContext);
+  const { isLogged, onLogout } = useAuth();
 
   const handleLogout = async () => {
     await logout();
@@ -15,7 +14,7 @@ export default function Header() {
   return (
     <header>
       <div style={{ display: "flex" }}>
-        <div style={{ position: "relative", top: "-25px", left: "0px" }}>
+        <div style={{ position: "relative", top: "-33px", left: "0px" }}>
           <img
             src={logo}
             alt="logo"
@@ -37,6 +36,8 @@ export default function Header() {
                 width: "200px",
                 padding: "5px",
                 marginTop: "35px",
+                borderRadius: "500px",
+                border: "solid 2px rgb(79, 211, 211)",
               }}
             />
             <Button
@@ -46,6 +47,7 @@ export default function Header() {
                 padding: "5px",
                 marginTop: "35px",
                 borderRadius: "500px",
+                border: "solid 2px rgb(79, 211, 211)",
               }}
             >
               <i className="fas fa-search"></i>

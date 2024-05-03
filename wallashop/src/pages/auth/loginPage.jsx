@@ -1,11 +1,11 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Button from "../../components/button";
 import { login } from "./service";
 import Layout from "../../components/layout/layout";
-import { AuthContext } from "./context";
+import { useAuth } from "./context.jsx";
 
 export default function LoginPage() {
-  const { onLogin } = useContext(AuthContext);
+  const { onLogin } = useAuth();
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
