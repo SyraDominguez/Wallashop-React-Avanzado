@@ -1,10 +1,15 @@
 import { useState } from "react";
+import styles from "./loginPage.module.css";
 import Button from "../../components/button";
 import { login } from "./service";
 import Layout from "../../components/layout/layout";
 import { useAuth } from "./context.jsx";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const { onLogin } = useAuth();
   const [formValues, setFormValues] = useState({
     email: "",
@@ -25,6 +30,8 @@ export default function LoginPage() {
       onLogin(true);
     }
 
+    const to = location.state?.from || "/";
+    navigate(to);
     console.log("Logada");
   };
 
@@ -33,9 +40,9 @@ export default function LoginPage() {
 
   return (
     <Layout>
-      <div>
+      <div className={styles.loginPage}>
         <h1>Login</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={styles.loginForm}>
           <input
             type="email"
             name="email"
@@ -52,7 +59,7 @@ export default function LoginPage() {
             onChange={handleChange}
             required
           />
-          <Button type="submit" $variant="primary" disabled={buttonDisabled}>
+          <Button type="submit" disabled={buttonDisabled}>
             Login
           </Button>
         </form>

@@ -1,9 +1,9 @@
 import AdsPage from "./pages/ads/adsPage";
 import NewAdPage from "./pages/ads/newAdPage";
-import { useAuth } from "./pages/auth/context";
 import LoginPage from "./pages/auth/loginPage";
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import AdDetailPage from "./pages/ads/adDetailPage";
+import RequireAuth from "./pages/auth/RequireAuth";
 
 function App() {
   return (
@@ -19,7 +19,14 @@ function App() {
       >
         <Route index element={<AdsPage />} />
         <Route path=":adsId" element={<AdDetailPage />} />
-        <Route path="new" element={<NewAdPage />} />
+        <Route
+          path="new"
+          element={
+            <RequireAuth>
+              <NewAdPage />
+            </RequireAuth>
+          }
+        />
       </Route>
       <Route path="/" element={<Navigate to="/ads" />} />
       <Route path="/404" element={<div>404 | Not Found</div>} />

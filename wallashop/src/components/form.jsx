@@ -8,7 +8,7 @@ export default function Form() {
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
   const [tags, setTags] = useState([]);
-  const [photo, setPhoto] = useState(null);
+  // const [photo, setPhoto] = useState(null);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -38,8 +38,19 @@ export default function Form() {
     e.preventDefault();
   };
 
+  const [photo, setPhoto] = useState(null);
+
   const handlePhotoChange = (e) => {
     setPhoto(e.target.files[0]);
+  };
+
+  const resetForm = () => {
+    setName("");
+    setPrice("");
+    setDescription("");
+    setType("");
+    setTags([]);
+    setPhoto(null);
   };
 
   return (
@@ -137,7 +148,7 @@ export default function Form() {
       </div>
 
       <Button type="submit">Crear anuncio</Button>
-      <Button type="reset" $variant="primary">
+      <Button type="reset" onClick={resetForm}>
         Borrar
       </Button>
     </form>
