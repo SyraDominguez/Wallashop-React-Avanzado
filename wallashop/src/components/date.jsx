@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+//import axios from "axios";
 
 function DateTime() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -19,7 +19,7 @@ function DateTime() {
       });
     }
 
-    // con api para convertir latitud y longitud en ciudad
+    // con api para convertir latitud y longitud en ciudad (futura implementación)
     /*
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
