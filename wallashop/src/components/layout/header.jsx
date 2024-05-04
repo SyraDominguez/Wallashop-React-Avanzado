@@ -27,6 +27,7 @@ export default function Header() {
                 border: "solid 2px rgb(79, 211, 211)",
               }}
             />
+
             <Button
               style={{
                 width: "50px",
