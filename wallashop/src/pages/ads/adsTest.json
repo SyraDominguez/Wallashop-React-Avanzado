@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "name": "Airpods",
     "sale": false,
     "price": 80,
@@ -10,6 +11,7 @@
     ]
   },
   {
+    "id": 2,
     "name": "Alexa",
     "sale": true,
     "price": 125.75,
@@ -20,6 +22,7 @@
     ]
   },
   {
+    "id": 3,
     "name": "Camara Canon",
     "sale": true,
     "price": 535,
@@ -30,6 +33,7 @@
     ]
   },
   {
+    "id": 4,
     "name": "Toyota CH-R",
     "sale": false,
     "price": 35700,
@@ -40,6 +44,7 @@
     ]
   },
   {
+    "id": 5,
     "name": "MacBook Pro",
     "sale": false,
     "price": 850,

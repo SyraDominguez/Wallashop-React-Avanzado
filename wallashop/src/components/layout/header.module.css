@@ -1,0 +1,34 @@
+.navContainer .header-nav {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  text-decoration: none;
+}
+
+.navContainer .header-nav .header-nav-item {
+  align-self: center;
+  margin-left: 8px;
+  text-decoration: none;
+}
+
+.navContainer .header-nav .active {
+  color: rgb(79, 211, 211);
+  text-decoration: none;
+}
+
+.navContainer .header-button {
+  width: 100px;
+  margin-left: 10px;
+}
+
+.navContainer .header-nav a {
+  color: black;
+  /* Cambia el color del texto a negro */
+  text-decoration: none;
+  /* Quita el subrayado */
+}
+
+.navContainer .header-nav a:not(.active) {
+  color: rgb(79, 211, 211);
+  /* Colorea los enlaces no activos */
+}

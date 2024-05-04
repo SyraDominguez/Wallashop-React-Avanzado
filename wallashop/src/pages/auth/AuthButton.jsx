@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Button from "../../components/button";
 import { useAuth } from "./context";
 import { logout } from "./service";
@@ -17,7 +18,7 @@ function AuthButton({ className }) {
       Logout
     </Button>
   ) : (
-    <Button $variant="primary" className={className}>
+    <Button $variant="primary" className={className} as={Link} to="/login">
       Login
     </Button>
   );

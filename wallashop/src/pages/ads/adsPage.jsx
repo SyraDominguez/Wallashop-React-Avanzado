@@ -5,6 +5,7 @@ import { getLatestAds } from "./service";
 import Button from "../../components/button";
 import DateTime from "../../components/date";
 import Layout from "../../components/layout/layout";
+import { Link } from "react-router-dom";
 
 const EmptyList = () => (
   <div className={styles.emptyList}>
@@ -32,17 +33,20 @@ function AdsPage() {
         {products.length ? (
           <ul className={`${styles.adsGrid} ${styles.adsContainer}`}>
             {products.map((product) => (
-              <li key={product.name} className={styles.adCard}>
-                <h5>{product.name}</h5>
-                <p>{product.description}</p>
-                <p>{product.price} €</p>
-                <img src={product.photo} alt={product.name} />
-                <Button>{product.sale ? "Sale" : "Buy"}</Button>
-                <ul>
-                  {product.tags.map((tag, index) => (
-                    <li key={index}>{tag}</li>
-                  ))}
-                </ul>
+              <li key={product.id} className={styles.adCard}>
+           
+                <Link to={`/ads/${product.id}`}>
+                  <h5>{product.name}</h5>
+                  <p>{product.description}</p>
+                  <p>{product.price} €</p>
+                  <img src={product.photo} alt={product.name} />
+                  <Button>{product.sale ? "Sale" : "Buy"}</Button>
+                  <ul>
+                    {product.tags.map((tag, index) => (
+                      <li key={index}>{tag}</li>
+                    ))}
+                  </ul>
+                </Link>
               </li>
             ))}
           </ul>
