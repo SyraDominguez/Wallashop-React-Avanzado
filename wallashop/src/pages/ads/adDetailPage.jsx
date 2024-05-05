@@ -1,4 +1,4 @@
-import { Route, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Layout from "../../components/layout/layout";
 import { useEffect, useState } from "react";
 import adsData from "../ads/adsTest.json";

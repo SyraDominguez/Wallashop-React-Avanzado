@@ -25,12 +25,20 @@
   border: 1px solid #ddd;
 }
 
-.loginForm button {
-  padding: 10px;
-  border-radius: 5px;
-  border: solid 1px #007bff;
 
-  cursor: pointer;
+.loginForm button:enabled {
+  background-color: rgb(75, 211, 211);
+  color: #fff;
+  border-radius: 10px;
+  border: solid 1px #007bff;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+
+.loginForm button:enabled:hover {
+  background-color: rgb(75, 211, 211);
+  color: #fff;
+  transform: scale(1.025);
 }
 
 .loginPageError {

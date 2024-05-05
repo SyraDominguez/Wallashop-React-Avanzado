@@ -16,6 +16,7 @@ export default function LoginPage() {
     password: "",
   });
   const [error, setError] = useState(null);
+  const [isFetching, setIsFetching] = useState(false);
 
   const handleChange = (event) => {
     setFormValues((currentFormValues) => ({
@@ -28,13 +29,16 @@ export default function LoginPage() {
     event.preventDefault();
 
     try {
+      setIsFetching(true);
       await login(formValues);
+      setIsFetching(false);
       const to = location.state?.from || "/";
       navigate(to, { replace: true });
       if (typeof onLogin === "function") {
         onLogin(true);
       }
     } catch (error) {
+      setIsFetching(false);
       setError(`An error occurred: ${error.message}`);
     }
   };
@@ -42,7 +46,7 @@ export default function LoginPage() {
   const resetError = () => setError(null);
 
   const { email, password } = formValues;
-  const buttonDisabled = !email || !password;
+  const buttonDisabled = !email || !password || isFetching;
 
   return (
     <Layout>
