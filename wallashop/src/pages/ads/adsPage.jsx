@@ -4,6 +4,7 @@ import adsData from "./adsTest.json";
 import { getLatestAds } from "./service";
 import Button from "../../components/button";
 import DateTime from "../../components/date";
+import { NavLink } from "react-router-dom";
 import Layout from "../../components/layout/layout";
 import { Link } from "react-router-dom";
 
@@ -13,12 +14,14 @@ const EmptyList = () => (
       ¡Haz historia y sé el primero en destacar con tu anuncio en nuestra
       plataforma!
     </p>
-    <Button $varian="primary">Crear un anuncio</Button>
+    <Button $variant="primary">
+      <NavLink to="/ads/new">Crear un anuncio</NavLink>
+    </Button>
   </div>
 );
 
 function AdsPage() {
-  const [products, setProducts] = useState(adsData);
+  const [ads, setProducts] = useState(adsData);
 
   useEffect(() => {
     getLatestAds().then((ads) => {
@@ -30,18 +33,18 @@ function AdsPage() {
     <Layout title="Anuncios destacados de hoy en tu ciudad">
       <DateTime />
       <div className={styles.adsPage}>
-        {products.length ? (
+        {ads.length ? (
           <ul className={`${styles.adsGrid} ${styles.adsContainer}`}>
-            {products.map((product) => (
-              <li key={product.id} className={styles.adCard}>
-                <Link to={`/ads/${product.id}`}>
-                  <h5>{product.name}</h5>
-                  <p>{product.description}</p>
-                  <p>{product.price} €</p>
-                  <img src={product.photo} alt={product.name} />
-                  <Button>{product.sale ? "Sale" : "Buy"}</Button>
+            {ads.map((ad) => (
+              <li key={ad.id} className={styles.adCard}>
+                <Link to={`/ads/${ad.id}`}>
+                  <h5>{ad.name}</h5>
+                  <p>{ad.description}</p>
+                  <p>{ad.price} €</p>
+                  <img src={ad.photo} alt={ad.name} />
+                  <Button>{ad.sale ? "Sale" : "Buy"}</Button>
                   <ul>
-                    {product.tags.map((tag, index) => (
+                    {ad.tags.map((tag, index) => (
                       <li key={index}>{tag}</li>
                     ))}
                   </ul>
