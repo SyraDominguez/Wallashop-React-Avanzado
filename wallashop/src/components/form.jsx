@@ -1,15 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../components/button.jsx";
 import styles from "./form.module.css";
+import { createAd } from "../pages/ads/service.js";
 
 export default function Form() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [type, setType] = useState("");
   const [tags, setTags] = useState([]);
-  const [includePhoto, setIncludePhoto] = useState(false); // Estado para controlar si se incluirá la foto del artículo
+  const [includePhoto, setIncludePhoto] = useState(false);
   const [photo, setPhoto] = useState(null);
+  const [sale, setSale] = useState(true);
+  const navigate = useNavigate();
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -17,14 +19,6 @@ export default function Form() {
 
   const handlePriceChange = (e) => {
     setPrice(e.target.value);
-  };
-
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const handleTypeChange = (e) => {
-    setType(e.target.value);
   };
 
   const handleTagsChange = (e) => {
@@ -35,8 +29,34 @@ export default function Form() {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const adData = new FormData();
+    adData.append("name", name);
+    adData.append("price", parseFloat(price));
+    adData.append("tags", tags);
+    adData.append("sale", sale);
+
+    if (includePhoto && photo) {
+      adData.append("photo", photo);
+    }
+
+    try {
+      const response = await createAd(adData);
+      console.log(response); // Agrega este console.log para verificar la estructura de la respuesta
+      if (response && response.id) {
+        alert(`Anuncio creado con éxito`);
+        localStorage.setItem("lastAdId", response.id.toString());
+      } else {
+        alert("Anuncio creado con éxito, pero no se proporcionó un ID.");
+      }
+      resetForm();
+      navigate("/ads");
+    } catch (error) {
+      console.error("Error al crear el anuncio:", error);
+      alert("Hubo un error al crear el anuncio. Inténtalo de nuevo más tarde.");
+    }
   };
 
   const handlePhotoChange = (e) => {
@@ -46,8 +66,6 @@ export default function Form() {
   const resetForm = () => {
     setName("");
     setPrice("");
-    setDescription("");
-    setType("");
     setTags([]);
     setPhoto(null);
   };
@@ -75,26 +93,26 @@ export default function Form() {
           required
         />
       </div>
-
       <div>
-        <label htmlFor="description">Descripción breve:</label>
-        <input
-          type="text"
-          id="description"
-          value={description}
-          onChange={handleDescriptionChange}
-          required
-        />
+        <label>
+          <input
+            type="checkbox"
+            checked={includePhoto}
+            onChange={() => setIncludePhoto(!includePhoto)}
+          />
+          Incluir foto del artículo?
+        </label>
       </div>
-
-      <div>
-        <label htmlFor="type">Tipo:</label>
-        <select id="type" value={type} onChange={handleTypeChange} required>
-          <option value="">Seleccione una opción</option>
-          <option value="venta">Venta</option>
-          <option value="compra">Compra</option>
-        </select>
-      </div>
+      {includePhoto ? (
+        <div>
+          <label htmlFor="photo">Foto:</label>
+          <input type="file" id="photo" onChange={handlePhotoChange} />
+        </div>
+      ) : (
+        <div className={styles.photoPlaceholder}>
+          <p>¡No has incluido una foto!</p>
+        </div>
+      )}
 
       <div>
         <label>Tags:</label>
@@ -105,7 +123,6 @@ export default function Form() {
             value="lifestyle"
             checked={tags.includes("lifestyle")}
             onChange={handleTagsChange}
-            required
           />
           Lifestyle
         </label>
@@ -144,20 +161,25 @@ export default function Form() {
       <div>
         <label>
           <input
-            type="checkbox"
-            checked={includePhoto}
-            onChange={() => setIncludePhoto(!includePhoto)}
+            type="radio"
+            name="sale"
+            value="true"
+            checked={sale}
+            onChange={() => setSale(true)}
           />
-          Incluir foto del artículo?
+          Venta
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="sale"
+            value="false"
+            checked={!sale}
+            onChange={() => setSale(false)}
+          />
+          Compra
         </label>
       </div>
-
-      {includePhoto && (
-        <div>
-          <label htmlFor="photo">Foto:</label>
-          <input type="file" id="photo" onChange={handlePhotoChange} />
-        </div>
-      )}
 
       <Button type="submit">Crear anuncio</Button>
       <Button type="reset" onClick={resetForm}>
