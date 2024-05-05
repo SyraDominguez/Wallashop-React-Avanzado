@@ -8,7 +8,8 @@ export default function Form() {
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
   const [tags, setTags] = useState([]);
-  // const [photo, setPhoto] = useState(null);
+  const [includePhoto, setIncludePhoto] = useState(false); // Estado para controlar si se incluirá la foto del artículo
+  const [photo, setPhoto] = useState(null);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -37,8 +38,6 @@ export default function Form() {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-
-  const [photo, setPhoto] = useState(null);
 
   const handlePhotoChange = (e) => {
     setPhoto(e.target.files[0]);
@@ -143,9 +142,22 @@ export default function Form() {
       </div>
 
       <div>
-        <label htmlFor="photo">Foto:</label>
-        <input type="file" id="photo" onChange={handlePhotoChange} />
+        <label>
+          <input
+            type="checkbox"
+            checked={includePhoto}
+            onChange={() => setIncludePhoto(!includePhoto)}
+          />
+          Incluir foto del artículo?
+        </label>
       </div>
+
+      {includePhoto && (
+        <div>
+          <label htmlFor="photo">Foto:</label>
+          <input type="file" id="photo" onChange={handlePhotoChange} />
+        </div>
+      )}
 
       <Button type="submit">Crear anuncio</Button>
       <Button type="reset" onClick={resetForm}>
