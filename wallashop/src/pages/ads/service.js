@@ -6,3 +6,8 @@ export const getLatestAds = () => {
   return client
     .get(adsUrl)
 };
+
+export const getAd = adId => {
+  const url = `${adsUrl}/${adId}`
+  return client.get(url);
+}
