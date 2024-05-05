@@ -5,14 +5,17 @@ import adsData from "../ads/adsTest.json";
 import { Link } from "react-router-dom";
 import Error404 from "../../components/error404";
 import styles from "./adDetailPage.module.css";
+import { getAd } from "./service";
+import Button from "../../components/button";
 
 function AdDetailPage() {
   const params = useParams();
   const [ad, setAd] = useState(null);
 
   useEffect(() => {
-    const foundAd = adsData.find((ad) => ad.id === parseInt(params.adsId));
-    setAd(foundAd);
+    getAd(params.adsId)
+      .then((adData) => setAd(adData))
+      .catch((error) => console.error("Error fetching ad:", error));
   }, [params.adsId]);
 
   if (!ad) {
@@ -37,7 +40,9 @@ function AdDetailPage() {
             </span>
           ))}
         </ul>
-        <Link to="/ads">Volver a los anuncios</Link>
+        <Button>
+          <Link to="/ads">Volver a los anuncios</Link>
+        </Button>
       </div>
     </Layout>
   );
