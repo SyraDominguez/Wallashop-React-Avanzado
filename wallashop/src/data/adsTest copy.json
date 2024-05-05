@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "Airpods",
+    "sale": false,
+    "price": 80,
+    "description": "Estoy buscando unos AirPods sin apenas uso, si tienes unos que no usas y quieres venderlos, ¡escríbeme!",
+    "photo": "/src/assets/adsImages/airpods.jpg",
+    "tags": [
+      "work",
+      "lifestyle"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Alexa",
+    "sale": true,
+    "price": 125.75,
+    "description": "Vendo Alexa en perfecto estado, con su caja original y todos los accesorios. ¡Aprovecha la oportunidad!",
+    "photo": "/src/assets/adsImages/alexa.jpg",
+    "tags": [
+      "lifestyle",
+      "mobile"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Camara Canon",
+    "sale": true,
+    "price": 535,
+    "description": "Vendo cámara Canon en perfecto estado, con su caja original y todos los accesorios. ¡Aprovecha la oportunidad!",
+    "photo": "/src/assets/adsImages/canon.jpg",
+    "tags": [
+      "work",
+      "lifestyle"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Toyota CH-R",
+    "sale": false,
+    "price": 35700,
+    "description": "Compro Toyota CH-R en buen estado, si tienes uno y quieres venderlo, ¡escríbeme!",
+    "photo": "/src/assets/adsImages/chr.jpg",
+    "tags": [
+      "work",
+      "motor"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "MacBook Pro",
+    "sale": false,
+    "price": 850,
+    "description": "Estoy buscando un MacBook Pro en buen estado, si tienes uno y quieres venderlo, ¡escríbeme!",
+    "photo": "/src/assets/adsImages/macbook_pro.jpg",
+    "tags": [
+      "work",
+      "lifestyle"
+    ]
+  }
+]

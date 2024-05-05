@@ -17,7 +17,7 @@ export const getAd = adId => {
 
 export const deleteAd = async (adId) => {
   const url = `${adsUrl}/${adId}`;
-  const response = await client.delete(url);
-  return response;
+  return client.delete(url);
 };
+
 

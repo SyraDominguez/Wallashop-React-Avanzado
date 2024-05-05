@@ -1,16 +1,17 @@
 import { useParams } from "react-router-dom";
 import Layout from "../../components/layout/layout";
 import { useEffect, useState } from "react";
-import adsData from "../ads/adsTest.json";
 import { Link } from "react-router-dom";
 import Error404 from "../../components/error404";
+import { useAuth } from "../auth/context";
 import styles from "./adDetailPage.module.css";
-import { getAd } from "./service";
+import { getAd, deleteAd } from "./service";
 import Button from "../../components/button";
 
 function AdDetailPage() {
   const params = useParams();
   const [ad, setAd] = useState(null);
+  const { isLogged } = useAuth();
 
   useEffect(() => {
     getAd(params.adsId)
@@ -40,6 +41,9 @@ function AdDetailPage() {
             </span>
           ))}
         </ul>
+        {isLogged && (
+          <Button onClick={() => deleteAd(ad.id)}>Borrar anuncio</Button>
+        )}
         <Button>
           <Link to="/ads">Volver a los anuncios</Link>
         </Button>
