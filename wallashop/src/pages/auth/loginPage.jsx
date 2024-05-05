@@ -15,6 +15,7 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
+  const [error, setError] = useState(null);
 
   const handleChange = (event) => {
     setFormValues((currentFormValues) => ({
@@ -25,15 +26,20 @@ export default function LoginPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await login(formValues);
-    if (typeof onLogin === "function") {
-      onLogin(true);
-    }
 
-    const to = location.state?.from || "/";
-    navigate(to);
-    console.log("Logada");
+    try {
+      await login(formValues);
+      const to = location.state?.from || "/";
+      navigate(to, { replace: true });
+      if (typeof onLogin === "function") {
+        onLogin(true);
+      }
+    } catch (error) {
+      setError(`An error occurred: ${error.message}`);
+    }
   };
+
+  const resetError = () => setError(null);
 
   const { email, password } = formValues;
   const buttonDisabled = !email || !password;
@@ -63,6 +69,11 @@ export default function LoginPage() {
             Login
           </Button>
         </form>
+        {error && (
+          <div className={styles.loginPageError} onClick={resetError}>
+            {error} {/* Aquí se muestra el mensaje de error */}
+          </div>
+        )}
       </div>
     </Layout>
   );

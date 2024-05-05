@@ -34,7 +34,6 @@ function AdsPage() {
           <ul className={`${styles.adsGrid} ${styles.adsContainer}`}>
             {products.map((product) => (
               <li key={product.id} className={styles.adCard}>
-           
                 <Link to={`/ads/${product.id}`}>
                   <h5>{product.name}</h5>
                   <p>{product.description}</p>

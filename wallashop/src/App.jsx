@@ -4,6 +4,7 @@ import LoginPage from "./pages/auth/loginPage";
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import AdDetailPage from "./pages/ads/adDetailPage";
 import RequireAuth from "./pages/auth/RequireAuth";
+import Error404 from "./components/error404";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
         />
       </Route>
       <Route path="/" element={<Navigate to="/ads" />} />
-      <Route path="/404" element={<div>404 | Not Found</div>} />
+      <Route path="/404" element={<Error404 />} />
       <Route path="*" element={<Navigate to="/404" />} />
     </Routes>
   );

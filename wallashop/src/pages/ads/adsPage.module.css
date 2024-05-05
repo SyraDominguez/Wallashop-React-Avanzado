@@ -99,3 +99,11 @@ ul {
   margin-top: 10px;
 
 }
+
+.successMessage {
+  background-color: rgba(79, 211, 211, 0.5);
+  color: black;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
