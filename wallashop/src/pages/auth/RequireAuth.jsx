@@ -1,21 +1,14 @@
-import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "./context";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "./context"; // Ajustar la ruta
 
-import PropTypes from "prop-types";
-
-function RequireAuth({ children }) {
-  const Location = useLocation();
+const RequireAuth = ({ children }) => {
   const { isLogged } = useAuth();
 
-  return isLogged ? (
-    children
-  ) : (
-    <Navigate to="/login" state={{ from: Location }} />
-  );
-}
+  if (!isLogged) {
+    return <Navigate to="/login" />;
+  }
 
-RequireAuth.propTypes = {
-  children: PropTypes.node.isRequired,
+  return children;
 };
 
 export default RequireAuth;
