@@ -7,6 +7,7 @@ import { useAuth } from "../auth/context";
 import styles from "./adDetailPage.module.css";
 import { getAd, deleteAd } from "./service";
 import Button from "../../components/button";
+import ConfirmDialog from "../../components/confirmDialog";
 
 function AdDetailPage() {
   const params = useParams();
@@ -14,6 +15,7 @@ function AdDetailPage() {
   const [ad, setAd] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
   const { isLogged } = useAuth();
 
   useEffect(() => {
@@ -39,6 +41,19 @@ function AdDetailPage() {
       console.error("Error deleting ad:", error);
       alert("Error al eliminar el anuncio. Inténtalo de nuevo más tarde.");
     }
+  };
+
+  const openConfirmDialog = () => {
+    setShowConfirm(true);
+  };
+
+  const closeConfirmDialog = () => {
+    setShowConfirm(false);
+  };
+
+  const confirmDelete = () => {
+    closeConfirmDialog();
+    handleDelete();
   };
 
   if (loading) {
@@ -73,11 +88,20 @@ function AdDetailPage() {
             </span>
           ))}
         </ul>
-        {isLogged && <Button onClick={handleDelete}>Borrar anuncio</Button>}
+        {isLogged && (
+          <Button onClick={openConfirmDialog}>Borrar anuncio</Button>
+        )}
         <Button>
           <Link to="/ads">Volver a los anuncios</Link>
         </Button>
       </div>
+      {showConfirm && (
+        <ConfirmDialog
+          message="¿Estás seguro de que quieres eliminar este anuncio?"
+          onConfirm={confirmDelete}
+          onCancel={closeConfirmDialog}
+        />
+      )}
     </Layout>
   );
 }
