@@ -1,17 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/button.jsx";
 import styles from "./form.module.css";
 import { createAd } from "../pages/ads/service.js";
+import { getTags } from "../services/tagService.jsx";
 
 export default function Form() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [tags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [includePhoto, setIncludePhoto] = useState(false);
   const [photo, setPhoto] = useState(null);
   const [sale, setSale] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const tags = await getTags();
+        setTags(tags);
+      } catch (error) {
+        console.error("Error fetching tags", error);
+      }
+    };
+
+    fetchTags();
+  }, []);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -21,12 +36,13 @@ export default function Form() {
     setPrice(e.target.value);
   };
 
-  const handleTagsChange = (e) => {
-    if (e.target.checked) {
-      setTags((prevTags) => [...prevTags, e.target.value]);
-    } else {
-      setTags((prevTags) => prevTags.filter((tag) => tag !== e.target.value));
-    }
+  const handleTagChange = (e) => {
+    const tag = e.target.value;
+    setSelectedTags((prevSelectedTags) =>
+      prevSelectedTags.includes(tag)
+        ? prevSelectedTags.filter((t) => t !== tag)
+        : [...prevSelectedTags, tag]
+    );
   };
 
   const handleSubmit = async (event) => {
@@ -35,8 +51,8 @@ export default function Form() {
     const adData = new FormData();
     adData.append("name", name);
     adData.append("price", parseFloat(price));
-    adData.append("tags", tags);
     adData.append("sale", sale);
+    selectedTags.forEach((tag) => adData.append("tags", tag));
 
     if (includePhoto && photo) {
       adData.append("photo", photo);
@@ -44,15 +60,16 @@ export default function Form() {
 
     try {
       const response = await createAd(adData);
-      console.log(response); // Agrega este console.log para verificar la estructura de la respuesta
+      console.log(response); // Debugging purposes
       if (response && response.id) {
         alert(`Anuncio creado con éxito`);
         localStorage.setItem("lastAdId", response.id.toString());
+        navigate(`/ads/${response.id}`);
       } else {
         alert("Anuncio creado con éxito, pero no se proporcionó un ID.");
+        navigate("/ads");
       }
       resetForm();
-      navigate("/ads");
     } catch (error) {
       console.error("Error al crear el anuncio:", error);
       alert("Hubo un error al crear el anuncio. Inténtalo de nuevo más tarde.");
@@ -66,7 +83,7 @@ export default function Form() {
   const resetForm = () => {
     setName("");
     setPrice("");
-    setTags([]);
+    setSelectedTags([]);
     setPhoto(null);
   };
 
@@ -116,46 +133,22 @@ export default function Form() {
 
       <div>
         <label>Tags:</label>
-        <label>
-          <input
-            type="checkbox"
-            name="tags"
-            value="lifestyle"
-            checked={tags.includes("lifestyle")}
-            onChange={handleTagsChange}
-          />
-          Lifestyle
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="tags"
-            value="home"
-            checked={tags.includes("home")}
-            onChange={handleTagsChange}
-          />
-          Home
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="tags"
-            value="motor"
-            checked={tags.includes("motor")}
-            onChange={handleTagsChange}
-          />
-          Motor
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="tags"
-            value="work"
-            checked={tags.includes("work")}
-            onChange={handleTagsChange}
-          />
-          Work
-        </label>
+        <br />
+        <br />
+        <div>
+          {tags.map((tag) => (
+            <label key={tag}>
+              <input
+                type="checkbox"
+                value={tag}
+                checked={selectedTags.includes(tag)}
+                onChange={handleTagChange}
+              />
+              {tag}
+            </label>
+          ))}
+        </div>
+        <br />
       </div>
 
       <div>

@@ -1,4 +1,3 @@
-// src/auth/context.jsx
 import { createContext, useContext, useState } from "react";
 import storage from "../../storage.js";
 
@@ -9,7 +8,6 @@ export const AuthContextProvider = ({ isDefaultLogged, children }) => {
 
   const handleLogin = () => {
     setIsLogged(true);
-    storage.set("auth", true);
   };
 
   const handleLogout = () => {

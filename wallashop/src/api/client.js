@@ -10,12 +10,10 @@ client.interceptors.response.use(response => response.data, error => {
       message: error.response.statusText,
       ...error.response,
       ...error.response.data,
-    })
+    });
   }
   return Promise.reject({ message: error.message });
-
-}
-);
+});
 
 export const setAuthorizationHeader = token =>
   (client.defaults.headers.common['Authorization'] = `Bearer ${token}`);

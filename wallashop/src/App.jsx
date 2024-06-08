@@ -5,7 +5,7 @@ import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import AdDetailPage from "./pages/ads/adDetailPage";
 import RequireAuth from "./pages/auth/RequireAuth";
 import Error404 from "./components/error404";
-import { AuthContextProvider } from "./pages/auth/context"; // Ajustar la ruta
+import { AuthContextProvider } from "./pages/auth/context";
 import storage from "./storage.js";
 
 function App() {

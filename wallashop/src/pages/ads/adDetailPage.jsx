@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Layout from "../../components/layout/layout";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -10,14 +10,44 @@ import Button from "../../components/button";
 
 function AdDetailPage() {
   const params = useParams();
+  const navigate = useNavigate();
   const [ad, setAd] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { isLogged } = useAuth();
 
   useEffect(() => {
-    getAd(params.adsId)
-      .then((adData) => setAd(adData))
-      .catch((error) => console.error("Error fetching ad:", error));
+    const fetchAd = async () => {
+      try {
+        const adData = await getAd(params.adsId);
+        setAd(adData);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAd();
   }, [params.adsId]);
+
+  const handleDelete = async () => {
+    try {
+      await deleteAd(ad.id);
+      navigate("/ads");
+    } catch (error) {
+      console.error("Error deleting ad:", error);
+      alert("Error al eliminar el anuncio. Inténtalo de nuevo más tarde.");
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <Error404 />;
+  }
 
   if (!ad) {
     return <Error404 />;
@@ -31,7 +61,9 @@ function AdDetailPage() {
         <p className={styles.detailDescription}>
           Descripción: {ad.description}
         </p>
-        <img src={ad.photo} alt={ad.name} className={styles.detailImage} />
+        {ad.photo && (
+          <img src={ad.photo} alt={ad.name} className={styles.detailImage} />
+        )}
         <p>Tipo: {ad.sale ? "Venta" : "Compra"}</p>
         <p>Tags:</p>
         <ul>
@@ -41,9 +73,7 @@ function AdDetailPage() {
             </span>
           ))}
         </ul>
-        {isLogged && (
-          <Button onClick={() => deleteAd(ad.id)}>Borrar anuncio</Button>
-        )}
+        {isLogged && <Button onClick={handleDelete}>Borrar anuncio</Button>}
         <Button>
           <Link to="/ads">Volver a los anuncios</Link>
         </Button>
