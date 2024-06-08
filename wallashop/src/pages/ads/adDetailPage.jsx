@@ -8,6 +8,7 @@ import styles from "./adDetailPage.module.css";
 import { getAd, deleteAd } from "./service";
 import Button from "../../components/button";
 import ConfirmDialog from "../../components/confirmDialog";
+import SuccessDialog from "../../components/SuccessDialog";
 
 function AdDetailPage() {
   const params = useParams();
@@ -16,6 +17,7 @@ function AdDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const { isLogged } = useAuth();
 
   useEffect(() => {
@@ -36,7 +38,7 @@ function AdDetailPage() {
   const handleDelete = async () => {
     try {
       await deleteAd(ad.id);
-      navigate("/ads");
+      setShowSuccess(true);
     } catch (error) {
       console.error("Error deleting ad:", error);
       alert("Error al eliminar el anuncio. Inténtalo de nuevo más tarde.");
@@ -54,6 +56,11 @@ function AdDetailPage() {
   const confirmDelete = () => {
     closeConfirmDialog();
     handleDelete();
+  };
+
+  const closeSuccessDialog = () => {
+    setShowSuccess(false);
+    navigate("/ads");
   };
 
   if (loading) {
@@ -97,9 +104,15 @@ function AdDetailPage() {
       </div>
       {showConfirm && (
         <ConfirmDialog
-          message="¿De verdad que quieres eliminar este anuncio? Esta accion es IRREVERSIBLE"
+          message="¿De verdad que quieres eliminar este anuncio? Esta acción es IRREVERSIBLE"
           onConfirm={confirmDelete}
           onCancel={closeConfirmDialog}
+        />
+      )}
+      {showSuccess && (
+        <SuccessDialog
+          message="Anuncio borrado correctamente"
+          onClose={closeSuccessDialog}
         />
       )}
     </Layout>
