@@ -2,26 +2,50 @@ import { Link, useLocation } from "react-router-dom";
 import Button from "../../components/button";
 import { useAuth } from "./context";
 import { logout } from "./service";
-
+import ConfirmDialog from "../../components/confirmDialog";
+import { useState } from "react";
 import PropTypes from "prop-types";
 
 function AuthButton({ className }) {
   const { isLogged, onLogout } = useAuth();
   const location = useLocation();
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  const handleLogoutClick = async () => {
+  const handleLogout = async () => {
     await logout();
     onLogout();
   };
 
+  const openConfirmDialog = () => {
+    setShowConfirm(true);
+  };
+
+  const closeConfirmDialog = () => {
+    setShowConfirm(false);
+  };
+
+  const confirmLogout = () => {
+    closeConfirmDialog();
+    handleLogout();
+  };
+
   if (location.pathname === "/login") {
-    return null; // No renderizar ningún botón si estamos en la página de login
+    return null;
   }
 
   return isLogged ? (
-    <Button onClick={handleLogoutClick} className={className}>
-      Logout
-    </Button>
+    <>
+      <Button onClick={openConfirmDialog} className={className}>
+        Logout
+      </Button>
+      {showConfirm && (
+        <ConfirmDialog
+          message="¿De verdad que quieres cerrar sesión?"
+          onConfirm={confirmLogout}
+          onCancel={closeConfirmDialog}
+        />
+      )}
+    </>
   ) : (
     <Button $variant="primary" className={className} as={Link} to="/login">
       Login

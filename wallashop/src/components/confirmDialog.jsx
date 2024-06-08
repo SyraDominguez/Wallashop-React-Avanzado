@@ -1,5 +1,7 @@
 import styles from "./ConfirmDialog.module.css";
 
+import PropTypes from "prop-types";
+
 const ConfirmDialog = ({ message, onConfirm, onCancel }) => {
   return (
     <div className={styles.dialogOverlay}>
@@ -12,6 +14,12 @@ const ConfirmDialog = ({ message, onConfirm, onCancel }) => {
       </div>
     </div>
   );
+};
+
+ConfirmDialog.propTypes = {
+  message: PropTypes.string.isRequired,
+  onConfirm: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 export default ConfirmDialog;

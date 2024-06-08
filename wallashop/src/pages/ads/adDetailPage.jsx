@@ -97,7 +97,7 @@ function AdDetailPage() {
       </div>
       {showConfirm && (
         <ConfirmDialog
-          message="¿Estás seguro de que quieres eliminar este anuncio?"
+          message="¿De verdad que quieres eliminar este anuncio? Esta accion es IRREVERSIBLE"
           onConfirm={confirmDelete}
           onCancel={closeConfirmDialog}
         />
