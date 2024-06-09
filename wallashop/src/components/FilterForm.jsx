@@ -19,7 +19,6 @@ const FilterForm = ({ onFilterChange }) => {
     const fetchTags = async () => {
       try {
         const tagsData = await getTags();
-        console.log("Tags data:", tagsData);
         setAvailableTags(tagsData);
       } catch (error) {
         setTagsError("Error fetching tags");
