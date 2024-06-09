@@ -46,3 +46,11 @@
 .filterForm label input {
   margin-right: 0.5rem;
 }
+
+.resetButton {
+  background-color: #dc3545;
+}
+
+.resetButton:hover {
+  background-color: #c82333;
+}

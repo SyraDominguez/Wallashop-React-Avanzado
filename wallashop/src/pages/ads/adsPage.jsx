@@ -25,12 +25,8 @@ function AdsPage() {
 
   useEffect(() => {
     const fetchAds = async () => {
-      try {
-        const adsData = await getLatestAds(filters);
-        setAds(adsData);
-      } catch (error) {
-        console.error("Error fetching ads:", error);
-      }
+      const adsData = await getLatestAds(filters);
+      setAds(adsData);
     };
     fetchAds();
   }, [filters]);

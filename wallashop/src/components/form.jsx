@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./form.module.css";
 import { createAd } from "../pages/ads/service";
 import { getTags } from "../service/tagService";
@@ -7,15 +8,16 @@ export default function Form() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [tags, setTags] = useState([]);
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [availableTags, setAvailableTags] = useState([]);
   const [includePhoto, setIncludePhoto] = useState(false);
   const [photo, setPhoto] = useState(null);
   const [sale, setSale] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTags = async () => {
       const tagsData = await getTags();
-      setTags(tagsData);
+      setAvailableTags(tagsData);
     };
     fetchTags();
   }, []);
@@ -29,11 +31,10 @@ export default function Form() {
   };
 
   const handleTagsChange = (e) => {
-    const value = e.target.value;
     if (e.target.checked) {
-      setSelectedTags((prevTags) => [...prevTags, value]);
+      setTags((prevTags) => [...prevTags, e.target.value]);
     } else {
-      setSelectedTags((prevTags) => prevTags.filter((tag) => tag !== value));
+      setTags((prevTags) => prevTags.filter((tag) => tag !== e.target.value));
     }
   };
 
@@ -43,7 +44,7 @@ export default function Form() {
     const adData = new FormData();
     adData.append("name", name);
     adData.append("price", parseFloat(price));
-    adData.append("tags", selectedTags);
+    adData.append("tags", tags);
     adData.append("sale", sale);
 
     if (includePhoto && photo) {
@@ -74,12 +75,13 @@ export default function Form() {
   const resetForm = () => {
     setName("");
     setPrice("");
-    setSelectedTags([]);
+    setTags([]);
     setPhoto(null);
   };
 
   return (
     <form onSubmit={handleSubmit} className={styles.newAdsPage}>
+      <h3>Crear un nuevo anuncio</h3>
       <div>
         <label htmlFor="name">Nombre:</label>
         <input
@@ -87,6 +89,7 @@ export default function Form() {
           id="name"
           value={name}
           onChange={handleNameChange}
+          placeholder="Filtra por Nombre"
           required
         />
       </div>
@@ -98,6 +101,7 @@ export default function Form() {
           id="price"
           value={price}
           onChange={handlePriceChange}
+          placeholder="Filtra por Precio"
           required
         />
       </div>
@@ -124,13 +128,13 @@ export default function Form() {
 
       <div>
         <label>Tags:</label>
-        {tags.map((tag) => (
+        {availableTags.map((tag) => (
           <label key={tag}>
             <input
               type="checkbox"
               name="tags"
               value={tag}
-              checked={selectedTags.includes(tag)}
+              checked={tags.includes(tag)}
               onChange={handleTagsChange}
             />
             {tag}

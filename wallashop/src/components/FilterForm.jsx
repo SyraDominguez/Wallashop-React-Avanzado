@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import styles from "./filterForm.module.css";
 import { getTags } from "../service/tagService";
-
 import PropTypes from "prop-types";
 
 const FilterForm = ({ onFilterChange }) => {
   const [filters, setFilters] = useState({
     name: "",
-    price: "",
+    minPrice: "",
+    maxPrice: "",
     tags: [],
     sale: "",
   });
@@ -19,12 +19,8 @@ const FilterForm = ({ onFilterChange }) => {
     const fetchTags = async () => {
       try {
         const tagsData = await getTags();
-        console.log("Tags data:", tagsData); // Verifica que los datos se obtengan correctamente
-        if (Array.isArray(tagsData)) {
-          setAvailableTags(tagsData);
-        } else {
-          setTagsError("Unexpected tags data format");
-        }
+        console.log("Tags data:", tagsData);
+        setAvailableTags(tagsData);
       } catch (error) {
         setTagsError("Error fetching tags");
         console.error("Error fetching tags:", error);
@@ -54,20 +50,40 @@ const FilterForm = ({ onFilterChange }) => {
     onFilterChange(filters);
   };
 
+  const handleReset = () => {
+    const resetFilters = {
+      name: "",
+      minPrice: "",
+      maxPrice: "",
+      tags: [],
+      sale: "",
+    };
+    setFilters(resetFilters);
+    onFilterChange(resetFilters);
+  };
+
   return (
     <form onSubmit={handleSubmit} className={styles.filterForm}>
+      <h3>Encuentra tu anuncio</h3>
       <input
         type="text"
         name="name"
-        placeholder="Nombre"
+        placeholder="Filtra por Nombre"
         value={filters.name}
         onChange={handleChange}
       />
       <input
         type="number"
-        name="price"
-        placeholder="Precio"
-        value={filters.price}
+        name="minPrice"
+        placeholder="Precio mínimo"
+        value={filters.minPrice}
+        onChange={handleChange}
+      />
+      <input
+        type="number"
+        name="maxPrice"
+        placeholder="Precio máximo"
+        value={filters.maxPrice}
         onChange={handleChange}
       />
       <div>
@@ -76,7 +92,7 @@ const FilterForm = ({ onFilterChange }) => {
         ) : tagsError ? (
           <p>{tagsError}</p>
         ) : (
-          availableTags.length > 0 && // Verifica que availableTags no esté vacío
+          Array.isArray(availableTags) &&
           availableTags.map((tag) => (
             <label key={tag}>
               <input
@@ -112,6 +128,13 @@ const FilterForm = ({ onFilterChange }) => {
         Compra
       </label>
       <button type="submit">Filtrar</button>
+      <button
+        type="button"
+        onClick={handleReset}
+        className={styles.resetButton}
+      >
+        Borrar Filtros
+      </button>
     </form>
   );
 };
