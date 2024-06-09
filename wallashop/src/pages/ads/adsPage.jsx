@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import styles from "./adsPage.module.css";
-import adsData from "./adsTest.json";
 import { getLatestAds } from "./service";
 import Button from "../../components/button";
 import DateTime from "../../components/date";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import Layout from "../../components/layout/layout";
-import { Link } from "react-router-dom";
+import FilterForm from "../../components/FilterForm";
 
 const EmptyList = () => (
   <div className={styles.emptyList}>
@@ -21,17 +20,29 @@ const EmptyList = () => (
 );
 
 function AdsPage() {
-  const [ads, setProducts] = useState(adsData);
+  const [ads, setAds] = useState([]);
+  const [filters, setFilters] = useState({});
 
   useEffect(() => {
-    getLatestAds().then((ads) => {
-      setProducts([...adsData, ...ads]);
-    });
-  }, []);
+    const fetchAds = async () => {
+      try {
+        const adsData = await getLatestAds(filters);
+        setAds(adsData);
+      } catch (error) {
+        console.error("Error fetching ads:", error);
+      }
+    };
+    fetchAds();
+  }, [filters]);
+
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+  };
 
   return (
     <Layout title="Anuncios destacados de hoy en tu ciudad">
       <DateTime />
+      <FilterForm onFilterChange={handleFilterChange} />
       <div className={styles.adsPage}>
         {ads.length ? (
           <ul className={`${styles.adsGrid} ${styles.adsContainer}`}>

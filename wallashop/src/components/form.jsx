@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Button from "../components/button.jsx";
 import styles from "./form.module.css";
-import { createAd } from "../pages/ads/service.js";
-import { getTags } from "../services/tagService.jsx";
+import { createAd } from "../pages/ads/service";
+import { getTags } from "../service/tagService";
 
 export default function Form() {
   const [name, setName] = useState("");
@@ -13,18 +11,12 @@ export default function Form() {
   const [includePhoto, setIncludePhoto] = useState(false);
   const [photo, setPhoto] = useState(null);
   const [sale, setSale] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTags = async () => {
-      try {
-        const tags = await getTags();
-        setTags(tags);
-      } catch (error) {
-        console.error("Error fetching tags", error);
-      }
+      const tagsData = await getTags();
+      setTags(tagsData);
     };
-
     fetchTags();
   }, []);
 
@@ -36,13 +28,13 @@ export default function Form() {
     setPrice(e.target.value);
   };
 
-  const handleTagChange = (e) => {
-    const tag = e.target.value;
-    setSelectedTags((prevSelectedTags) =>
-      prevSelectedTags.includes(tag)
-        ? prevSelectedTags.filter((t) => t !== tag)
-        : [...prevSelectedTags, tag]
-    );
+  const handleTagsChange = (e) => {
+    const value = e.target.value;
+    if (e.target.checked) {
+      setSelectedTags((prevTags) => [...prevTags, value]);
+    } else {
+      setSelectedTags((prevTags) => prevTags.filter((tag) => tag !== value));
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -51,8 +43,8 @@ export default function Form() {
     const adData = new FormData();
     adData.append("name", name);
     adData.append("price", parseFloat(price));
+    adData.append("tags", selectedTags);
     adData.append("sale", sale);
-    selectedTags.forEach((tag) => adData.append("tags", tag));
 
     if (includePhoto && photo) {
       adData.append("photo", photo);
@@ -60,16 +52,15 @@ export default function Form() {
 
     try {
       const response = await createAd(adData);
-      console.log(response); // Debugging purposes
+      console.log(response);
       if (response && response.id) {
         alert(`Anuncio creado con éxito`);
         localStorage.setItem("lastAdId", response.id.toString());
-        navigate(`/ads/${response.id}`);
       } else {
         alert("Anuncio creado con éxito, pero no se proporcionó un ID.");
-        navigate("/ads");
       }
       resetForm();
+      navigate("/ads");
     } catch (error) {
       console.error("Error al crear el anuncio:", error);
       alert("Hubo un error al crear el anuncio. Inténtalo de nuevo más tarde.");
@@ -133,22 +124,18 @@ export default function Form() {
 
       <div>
         <label>Tags:</label>
-        <br />
-        <br />
-        <div>
-          {tags.map((tag) => (
-            <label key={tag}>
-              <input
-                type="checkbox"
-                value={tag}
-                checked={selectedTags.includes(tag)}
-                onChange={handleTagChange}
-              />
-              {tag}
-            </label>
-          ))}
-        </div>
-        <br />
+        {tags.map((tag) => (
+          <label key={tag}>
+            <input
+              type="checkbox"
+              name="tags"
+              value={tag}
+              checked={selectedTags.includes(tag)}
+              onChange={handleTagsChange}
+            />
+            {tag}
+          </label>
+        ))}
       </div>
 
       <div>
@@ -174,10 +161,10 @@ export default function Form() {
         </label>
       </div>
 
-      <Button type="submit">Crear anuncio</Button>
-      <Button type="reset" onClick={resetForm}>
+      <button type="submit">Crear anuncio</button>
+      <button type="reset" onClick={resetForm}>
         Borrar
-      </Button>
+      </button>
     </form>
   );
 }
