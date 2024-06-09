@@ -103,7 +103,7 @@ export default function LoginPage() {
               checked={rememberMe}
               onChange={handleChange}
             />
-            Recordar email
+            <small>Recuérdame</small>
           </label>
           <Button type="submit" disabled={buttonDisabled}>
             Login
