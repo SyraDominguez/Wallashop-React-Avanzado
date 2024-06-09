@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 const FilterForm = ({ onFilterChange }) => {
   const [filters, setFilters] = useState({
     name: "",
+    nameOption: "contains",
     priceMin: "",
     priceMax: "",
     tags: [],
@@ -52,6 +53,7 @@ const FilterForm = ({ onFilterChange }) => {
   const handleReset = () => {
     const resetFilters = {
       name: "",
+      nameOption: "contains",
       priceMin: "",
       priceMax: "",
       tags: [],
@@ -64,6 +66,29 @@ const FilterForm = ({ onFilterChange }) => {
   return (
     <form onSubmit={handleSubmit} className={styles.filterForm}>
       <h3>Encuentra tu anuncio</h3>
+
+      <div className={styles.radioGroup}>
+        <label>
+          <input
+            type="radio"
+            name="nameOption"
+            value="startsWith"
+            checked={filters.nameOption === "startsWith"}
+            onChange={handleChange}
+          />
+          Empieza por
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="nameOption"
+            value="contains"
+            checked={filters.nameOption === "contains"}
+            onChange={handleChange}
+          />
+          Contiene
+        </label>
+      </div>
       <input
         type="text"
         name="name"

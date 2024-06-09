@@ -39,9 +39,15 @@ function AdsPage() {
 
     if (newFilters.name) {
       const nameLowerCase = newFilters.name.toLowerCase();
-      filtered = filtered.filter((ad) =>
-        ad.name.toLowerCase().includes(nameLowerCase)
-      );
+      if (newFilters.nameOption === "startsWith") {
+        filtered = filtered.filter((ad) =>
+          ad.name.toLowerCase().startsWith(nameLowerCase)
+        );
+      } else {
+        filtered = filtered.filter((ad) =>
+          ad.name.toLowerCase().includes(nameLowerCase)
+        );
+      }
     }
 
     if (newFilters.priceMin) {
