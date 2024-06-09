@@ -21,18 +21,53 @@ const EmptyList = () => (
 
 function AdsPage() {
   const [ads, setAds] = useState([]);
+  const [filteredAds, setFilteredAds] = useState([]);
   const [filters, setFilters] = useState({});
 
   useEffect(() => {
     const fetchAds = async () => {
-      const adsData = await getLatestAds(filters);
+      const adsData = await getLatestAds({});
       setAds(adsData);
+      setFilteredAds(adsData);
     };
     fetchAds();
-  }, [filters]);
+  }, []);
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
+    let filtered = ads;
+
+    if (newFilters.name) {
+      const nameLowerCase = newFilters.name.toLowerCase();
+      filtered = filtered.filter((ad) =>
+        ad.name.toLowerCase().includes(nameLowerCase)
+      );
+    }
+
+    if (newFilters.priceMin) {
+      filtered = filtered.filter(
+        (ad) => ad.price >= parseFloat(newFilters.priceMin)
+      );
+    }
+
+    if (newFilters.priceMax) {
+      filtered = filtered.filter(
+        (ad) => ad.price <= parseFloat(newFilters.priceMax)
+      );
+    }
+
+    if (newFilters.tags && newFilters.tags.length > 0) {
+      filtered = filtered.filter((ad) =>
+        newFilters.tags.every((tag) => ad.tags.includes(tag))
+      );
+    }
+
+    if (newFilters.sale !== "") {
+      const sale = newFilters.sale === "true";
+      filtered = filtered.filter((ad) => ad.sale === sale);
+    }
+
+    setFilteredAds(filtered);
   };
 
   return (
@@ -40,9 +75,9 @@ function AdsPage() {
       <DateTime />
       <FilterForm onFilterChange={handleFilterChange} />
       <div className={styles.adsPage}>
-        {ads.length ? (
+        {filteredAds.length ? (
           <ul className={`${styles.adsGrid} ${styles.adsContainer}`}>
-            {ads.map((ad) => (
+            {filteredAds.map((ad) => (
               <li key={ad.id} className={styles.adCard}>
                 <Link to={`/ads/${ad.id}`}>
                   <h5>{ad.name}</h5>

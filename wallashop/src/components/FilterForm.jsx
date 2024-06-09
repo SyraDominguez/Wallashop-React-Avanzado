@@ -6,8 +6,8 @@ import PropTypes from "prop-types";
 const FilterForm = ({ onFilterChange }) => {
   const [filters, setFilters] = useState({
     name: "",
-    minPrice: "",
-    maxPrice: "",
+    priceMin: "",
+    priceMax: "",
     tags: [],
     sale: "",
   });
@@ -53,8 +53,8 @@ const FilterForm = ({ onFilterChange }) => {
   const handleReset = () => {
     const resetFilters = {
       name: "",
-      minPrice: "",
-      maxPrice: "",
+      priceMin: "",
+      priceMax: "",
       tags: [],
       sale: "",
     };
@@ -74,16 +74,16 @@ const FilterForm = ({ onFilterChange }) => {
       />
       <input
         type="number"
-        name="minPrice"
+        name="priceMin"
         placeholder="Precio mínimo"
-        value={filters.minPrice}
+        value={filters.priceMin}
         onChange={handleChange}
       />
       <input
         type="number"
-        name="maxPrice"
+        name="priceMax"
         placeholder="Precio máximo"
-        value={filters.maxPrice}
+        value={filters.priceMax}
         onChange={handleChange}
       />
       <div>
@@ -133,7 +133,7 @@ const FilterForm = ({ onFilterChange }) => {
         onClick={handleReset}
         className={styles.resetButton}
       >
-        Borrar Filtros
+        Borrar
       </button>
     </form>
   );
