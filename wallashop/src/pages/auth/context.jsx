@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import storage from "../../storage.js";
 
+import PropTypes from "prop-types";
+
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ isDefaultLogged, children }) => {
@@ -25,7 +27,7 @@ export const AuthContextProvider = ({ isDefaultLogged, children }) => {
     setUser(null);
     storage.remove("auth");
     storage.remove("user");
-    // No eliminamos savedEmail ni rememberMe para mantener el email guardado.
+    // No elimino savedEmail ni rememberMe para mantener el email guardado.
   };
 
   const authValue = {
@@ -40,6 +42,12 @@ export const AuthContextProvider = ({ isDefaultLogged, children }) => {
   );
 };
 
+AuthContextProvider.propTypes = {
+  isDefaultLogged: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const auth = useContext(AuthContext);
   return auth;

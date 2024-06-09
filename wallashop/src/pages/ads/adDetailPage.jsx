@@ -7,7 +7,7 @@ import { useAuth } from "../auth/context";
 import styles from "./adDetailPage.module.css";
 import { getAd, deleteAd } from "./service";
 import Button from "../../components/button";
-import ConfirmDialog from "../../components/confirmDialog";
+import ConfirmDialog from "../../components/ConfirmDialog";
 import SuccessDialog from "../../components/SuccessDialog";
 
 function AdDetailPage() {

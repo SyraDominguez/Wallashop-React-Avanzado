@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import Button from "../../components/button";
 import { useAuth } from "./context";
 import { logout } from "./service";
-import ConfirmDialog from "../../components/confirmDialog";
+import ConfirmDialog from "../../components/ConfirmDialog";
 import { useState } from "react";
 import PropTypes from "prop-types";
 
