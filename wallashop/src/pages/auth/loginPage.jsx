@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./loginPage.module.css";
 import Button from "../../components/button";
 import { login } from "./service";
 import Layout from "../../components/layout/layout";
 import { useAuth } from "./context.jsx";
 import { useLocation, useNavigate } from "react-router-dom";
+import storage from "../../storage";
 
 export default function LoginPage() {
   const location = useLocation();
@@ -14,14 +15,29 @@ export default function LoginPage() {
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
+    rememberMe: false,
   });
   const [error, setError] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
 
+  // Recuperar datos del localStorage al cargar el componente
+  useEffect(() => {
+    const savedEmail = storage.get("savedEmail");
+    const rememberMe = storage.get("rememberMe");
+    if (savedEmail) {
+      setFormValues((currentFormValues) => ({
+        ...currentFormValues,
+        email: savedEmail,
+        rememberMe: rememberMe || false,
+      }));
+    }
+  }, []);
+
   const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
     setFormValues((currentFormValues) => ({
       ...currentFormValues,
-      [event.target.name]: event.target.value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -30,12 +46,22 @@ export default function LoginPage() {
 
     try {
       setIsFetching(true);
-      await login(formValues);
+      const user = await login(formValues);
       setIsFetching(false);
+
+      if (formValues.rememberMe) {
+        storage.set("savedEmail", formValues.email);
+        storage.set("rememberMe", true);
+      } else {
+        storage.remove("savedEmail");
+        storage.remove("rememberMe");
+      }
+
       const to = location.state?.from || "/";
       navigate(to, { replace: true });
+
       if (typeof onLogin === "function") {
-        onLogin(true);
+        onLogin(user);
       }
     } catch (error) {
       setIsFetching(false);
@@ -45,7 +71,7 @@ export default function LoginPage() {
 
   const resetError = () => setError(null);
 
-  const { email, password } = formValues;
+  const { email, password, rememberMe } = formValues;
   const buttonDisabled = !email || !password || isFetching;
 
   return (
@@ -68,14 +94,24 @@ export default function LoginPage() {
             value={password}
             onChange={handleChange}
             required
+            autoComplete="current-password"
           />
+          <label>
+            <input
+              type="checkbox"
+              name="rememberMe"
+              checked={rememberMe}
+              onChange={handleChange}
+            />
+            Recordar email
+          </label>
           <Button type="submit" disabled={buttonDisabled}>
             Login
           </Button>
         </form>
         {error && (
           <div className={styles.loginPageError} onClick={resetError}>
-            {error} {/* Aquí se muestra el mensaje de error */}
+            {error}
           </div>
         )}
       </div>
