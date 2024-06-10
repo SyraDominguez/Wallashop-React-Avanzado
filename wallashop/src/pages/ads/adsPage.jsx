@@ -23,12 +23,15 @@ function AdsPage() {
   const [ads, setAds] = useState([]);
   const [filteredAds, setFilteredAds] = useState([]);
   const [filters, setFilters] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAds = async () => {
+      setLoading(true);
       const adsData = await getLatestAds({});
       setAds(adsData);
       setFilteredAds(adsData);
+      setLoading(false);
     };
     fetchAds();
   }, []);
@@ -39,15 +42,9 @@ function AdsPage() {
 
     if (newFilters.name) {
       const nameLowerCase = newFilters.name.toLowerCase();
-      if (newFilters.nameOption === "startsWith") {
-        filtered = filtered.filter((ad) =>
-          ad.name.toLowerCase().startsWith(nameLowerCase)
-        );
-      } else {
-        filtered = filtered.filter((ad) =>
-          ad.name.toLowerCase().includes(nameLowerCase)
-        );
-      }
+      filtered = filtered.filter((ad) =>
+        ad.name.toLowerCase().includes(nameLowerCase)
+      );
     }
 
     if (newFilters.priceMin) {
@@ -81,7 +78,9 @@ function AdsPage() {
       <DateTime />
       <FilterForm onFilterChange={handleFilterChange} />
       <div className={styles.adsPage}>
-        {filteredAds.length ? (
+        {loading ? (
+          <p>Cargando anuncios...</p>
+        ) : filteredAds.length ? (
           <ul className={`${styles.adsGrid} ${styles.adsContainer}`}>
             {filteredAds.map((ad) => (
               <li key={ad.id} className={styles.adCard}>
