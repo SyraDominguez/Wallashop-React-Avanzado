@@ -2,12 +2,16 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 80%;
+  width: 50%;
+  /* Reducido el ancho al 50% */
+  max-width: 600px;
+  /* Añadir un ancho máximo para limitar su tamaño en pantallas grandes */
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
   background-color: #fff;
-  margin-bottom: 1.5rem;
+  margin: 1.5rem auto;
+  /* Centrar el contenedor horizontalmente y añadir un margen superior */
 }
 
 .filterForm input,
