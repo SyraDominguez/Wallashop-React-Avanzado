@@ -2,7 +2,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import Layout from "../../components/layout/layout";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Error404 from "../../components/error404";
 import { useAuth } from "../auth/context";
 import styles from "./adDetailPage.module.css";
 import { getAd, deleteAd } from "./service";
@@ -24,16 +23,20 @@ function AdDetailPage() {
     const fetchAd = async () => {
       try {
         const adData = await getAd(params.adsId);
+        if (!adData) {
+          throw new Error("Ad not found");
+        }
         setAd(adData);
       } catch (error) {
         setError(error);
+        navigate("/not-found");
       } finally {
         setLoading(false);
       }
     };
 
     fetchAd();
-  }, [params.adsId]);
+  }, [params.adsId, navigate]);
 
   const handleDelete = async () => {
     try {
@@ -68,11 +71,7 @@ function AdDetailPage() {
   }
 
   if (error) {
-    return <Error404 />;
-  }
-
-  if (!ad) {
-    return <Error404 />;
+    return null;
   }
 
   return (
