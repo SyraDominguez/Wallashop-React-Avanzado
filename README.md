@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Wallashop v1.1
 
 Practica Fundamentos React consistente en un clone de Wallapop hecho con React - Desarrollo Web XVI
@@ -146,3 +147,4 @@ For any questions, suggestions, or feedback about the project, feel free to reac
 ## Acknowledgements
 
 Thanks to our teacher David (https://github.com/davidjj76) for his detailed explanations and his always willingness to help and answer our questions.
+
