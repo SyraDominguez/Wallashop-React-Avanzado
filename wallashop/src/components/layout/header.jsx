@@ -3,6 +3,7 @@ import AuthButton from "../../pages/auth/AuthButton";
 import styles from "./header.module.css";
 import Button from "../button";
 import { Link, NavLink } from "react-router-dom";
+import SomeComponent from "../SomeComponent"; // Importar SomeComponent para los botones de login/logout
 
 export default function Header() {
   return (
@@ -75,6 +76,12 @@ export default function Header() {
             </div>
           </div>
         </nav>
+      </div>
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
+      >
+        <SomeComponent />{" "}
+        {/* Añadir SomeComponent aquí para los botones de login/logout */}
       </div>
     </header>
   );

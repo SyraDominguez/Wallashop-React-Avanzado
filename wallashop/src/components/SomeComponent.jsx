@@ -6,18 +6,18 @@ const SomeComponent = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
-  useEffect(() => {
-    document.addEventListener("click", (event) => {
-      console.log("Global click event:", event.target);
-    });
+  // useEffect(() => {
+  //   document.addEventListener("click", (event) => {
+  //     // console.log("Global click event:", event.target);
+  //   });
 
-    // Cleanup event listener on component unmount
-    return () => {
-      document.removeEventListener("click", (event) => {
-        console.log("Global click event:", event.target);
-      });
-    };
-  }, []);
+  //   // Cleanup event listener on component unmount
+  //   return () => {
+  //     document.removeEventListener("click", (event) => {
+  //       // console.log("Global click event:", event.target);
+  //     });
+  //   };
+  // }, []);
 
   const handleLogin = (event) => {
     event.stopPropagation();

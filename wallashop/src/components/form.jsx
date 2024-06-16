@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./form.module.css";
 import { createAd } from "../pages/ads/service";
 import { getTags } from "../service/tagService";
+import LogoutButton from "./LogoutButton"; // Importar LogoutButton
 
 export default function Form() {
   const [name, setName] = useState("");
@@ -93,7 +94,6 @@ export default function Form() {
           required
         />
       </div>
-
       <div>
         <label htmlFor="price">Precio:</label>
         <input
@@ -125,7 +125,6 @@ export default function Form() {
           <p>¡No has incluido una foto!</p>
         </div>
       )}
-
       <div>
         <label>Tags:</label>
         {availableTags.map((tag) => (
@@ -141,7 +140,6 @@ export default function Form() {
           </label>
         ))}
       </div>
-
       <div>
         <label>
           <input
@@ -164,7 +162,6 @@ export default function Form() {
           Compra
         </label>
       </div>
-
       <button type="submit">Crear anuncio</button>
       <button type="reset" onClick={resetForm}>
         Borrar

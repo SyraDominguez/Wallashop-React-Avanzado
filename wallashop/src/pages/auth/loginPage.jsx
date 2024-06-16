@@ -1,15 +1,19 @@
 import { useState, useEffect } from "react";
 import styles from "./loginPage.module.css";
 import Button from "../../components/button";
-import { login } from "./service";
+import { login as apiLogin } from "./service";
 import Layout from "../../components/layout/layout";
 import { useAuth } from "./context.jsx";
 import { useLocation, useNavigate } from "react-router-dom";
 import storage from "../../storage";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/actions/authActions"; // Importar acción de Redux
+import { setAuthorizationHeader } from "../../api/client"; // Importar función para establecer el encabezado de autorización
 
 export default function LoginPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch(); // Usar useDispatch de Redux
 
   const { onLogin } = useAuth();
   const [formValues, setFormValues] = useState({
@@ -46,8 +50,20 @@ export default function LoginPage() {
 
     try {
       setIsFetching(true);
-      const user = await login(formValues);
+      const { user, token } = await apiLogin(formValues);
+      console.log("Login response:", { user, token }); // Agregar un console.log para depurar
       setIsFetching(false);
+
+      // Verificar si el token está presente
+      if (!token) {
+        throw new Error("Token no encontrado en la respuesta del servidor");
+      }
+
+      // Establecer el encabezado de autorización con el token real
+      setAuthorizationHeader(token);
+
+      // Despachar acción de login de Redux con el token real y el usuario
+      dispatch(login({ user, token }));
 
       if (formValues.rememberMe) {
         storage.set("savedEmail", formValues.email);

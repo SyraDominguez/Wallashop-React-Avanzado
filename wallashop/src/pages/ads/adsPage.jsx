@@ -6,6 +6,7 @@ import DateTime from "../../components/date";
 import { NavLink, Link } from "react-router-dom";
 import Layout from "../../components/layout/layout";
 import FilterForm from "../../components/FilterForm";
+import LogoutButton from "../../components/LogoutButton"; // Importar LogoutButton
 
 const EmptyList = () => (
   <div className={styles.emptyList}>
@@ -77,6 +78,7 @@ function AdsPage() {
     <Layout title="Anuncios destacados de hoy en tu ciudad">
       <DateTime />
       <FilterForm onFilterChange={handleFilterChange} />
+      <LogoutButton /> {/* Añadir el botón de Logout */}
       <div className={styles.adsPage}>
         {loading ? (
           <p>Cargando anuncios...</p>
