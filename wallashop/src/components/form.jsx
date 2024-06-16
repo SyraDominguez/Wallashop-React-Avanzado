@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import styles from "./form.module.css";
 import { createAd } from "../pages/ads/service";
 import { getTags } from "../service/tagService";
-import LogoutButton from "./LogoutButton"; // Importar LogoutButton
 
 export default function Form() {
   const [name, setName] = useState("");

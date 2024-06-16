@@ -1,23 +1,9 @@
-import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { login, logout } from "../store/actions/authActions";
 
 const SomeComponent = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-
-  // useEffect(() => {
-  //   document.addEventListener("click", (event) => {
-  //     // console.log("Global click event:", event.target);
-  //   });
-
-  //   // Cleanup event listener on component unmount
-  //   return () => {
-  //     document.removeEventListener("click", (event) => {
-  //       // console.log("Global click event:", event.target);
-  //     });
-  //   };
-  // }, []);
 
   const handleLogin = (event) => {
     event.stopPropagation();

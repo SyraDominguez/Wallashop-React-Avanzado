@@ -10,13 +10,11 @@ const initialState = {
 const authReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(login, (state, action) => {
-      console.log("Handling login action", action);
       state.isLoggedIn = true;
       state.user = action.payload.user;
       state.token = action.payload.token;
     })
     .addCase(logout, (state) => {
-      console.log("Handling logout action");
       state.isLoggedIn = false;
       state.user = null;
       state.token = null;

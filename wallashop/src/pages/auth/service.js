@@ -3,17 +3,14 @@ import storage from "../../storage";
 
 export const login = async credentials => {
   const response = await client.post('api/auth/login', credentials);
-  console.log("API Login Response:", response); // Agregar un console.log para depurar la respuesta
   const { accessToken } = response;
   setAuthorizationHeader(accessToken);
   storage.set('auth', accessToken);
 
-  // Hacer una solicitud para obtener la información del usuario
   const userResponse = await client.get('api/auth/me');
-  console.log("User Info Response:", userResponse); // Agregar un console.log para depurar la respuesta del usuario
-  const user = userResponse; // Acceder correctamente al objeto usuario
+  const user = userResponse;
 
-  return { user, token: accessToken }; // Devolver el usuario y el token
+  return { user, token: accessToken };
 };
 
 export const logout = () => {
