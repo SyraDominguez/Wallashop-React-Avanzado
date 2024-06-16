@@ -9,11 +9,18 @@ export default function Header() {
     <header>
       <div style={{ display: "flex" }}>
         <Link to="/">
-          <div style={{ position: "relative", top: "-55px", left: "0px" }}>
+          <div
+            style={{
+              position: "relative",
+              top: "-55px",
+              left: "0px",
+              zIndex: 1,
+            }}
+          >
             <img
               src={logo}
               alt="logo"
-              style={{ width: "200px", height: "200px" }}
+              style={{ width: "200px", height: "200px", zIndex: 1 }}
             />
           </div>
         </Link>
