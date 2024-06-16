@@ -53,7 +53,7 @@ export default function Form() {
 
     try {
       const response = await createAd(adData);
-      console.log(response);
+      // console.log(response);
       if (response && response.id) {
         alert(`Anuncio creado con éxito`);
         localStorage.setItem("lastAdId", response.id.toString());
