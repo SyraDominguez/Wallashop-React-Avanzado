@@ -9,7 +9,6 @@ export const login = async credentials => {
 
   const userResponse = await client.get('api/auth/me');
   const user = userResponse;
-
   return { user, token: accessToken };
 };
 

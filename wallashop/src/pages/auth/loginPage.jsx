@@ -57,12 +57,12 @@ export default function LoginPage() {
       }
 
       setAuthorizationHeader(token);
-
       dispatch(login({ user, token }));
 
       if (formValues.rememberMe) {
         storage.set("savedEmail", formValues.email);
         storage.set("rememberMe", true);
+        storage.set("auth", token); // Guarda el token en el Local Storage
       } else {
         storage.remove("savedEmail");
         storage.remove("rememberMe");
