@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import styles from "./form.module.css";
-import { getTags } from "../service/tagService";
+import { createAd as createAdService } from "../pages/ads/service";
+import { createAd } from "../store/actions/adActions";
+import { getTags as fetchTags } from "../service/tagService";
 
-export default function Form({ onSubmit }) {
+export default function Form() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [tags, setTags] = useState([]);
@@ -12,13 +15,14 @@ export default function Form({ onSubmit }) {
   const [photo, setPhoto] = useState(null);
   const [sale, setSale] = useState(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchTags = async () => {
-      const tagsData = await getTags();
+    const fetchTagsData = async () => {
+      const tagsData = await fetchTags();
       setAvailableTags(tagsData);
     };
-    fetchTags();
+    fetchTagsData();
   }, []);
 
   const handleNameChange = (e) => {
@@ -51,7 +55,14 @@ export default function Form({ onSubmit }) {
     }
 
     try {
-      await onSubmit(adData);
+      const response = await createAdService(adData);
+      if (response && response.id) {
+        dispatch(createAd({ ad: response }));
+        alert(`Anuncio creado con éxito`);
+        localStorage.setItem("lastAdId", response.id.toString());
+      } else {
+        alert("Anuncio creado con éxito, pero no se proporcionó un ID.");
+      }
       resetForm();
       navigate("/ads");
     } catch (error) {

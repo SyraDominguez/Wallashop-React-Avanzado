@@ -1,6 +1,7 @@
 import { client } from "../../api/client";
 
 const adsUrl = 'api/v1/adverts';
+const tagsUrl = 'api/v1/adverts/tags';
 
 export const getLatestAds = (filters = {}) => {
   const queryParams = new URLSearchParams();
@@ -34,4 +35,8 @@ export const getAd = (adId) => {
 export const deleteAd = async (adId) => {
   const url = `${adsUrl}/${adId}`;
   return client.delete(url);
+};
+
+export const getTags = () => {
+  return client.get(tagsUrl);
 };

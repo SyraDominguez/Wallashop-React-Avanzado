@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./adsPage.module.css";
-import { getLatestAds } from "./service";
+import { fetchAdsAndTags } from "../../store/actions/adActions";
 import Button from "../../components/button";
 import DateTime from "../../components/date";
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Layout from "../../components/layout/layout";
 import FilterForm from "../../components/FilterForm";
 
@@ -14,63 +15,21 @@ const EmptyList = () => (
       plataforma!
     </p>
     <Button $variant="primary">
-      <NavLink to="/ads/new">Crear un anuncio</NavLink>
+      <Link to="/ads/new">Crear un anuncio</Link>
     </Button>
   </div>
 );
 
 function AdsPage() {
-  const [ads, setAds] = useState([]);
-  const [filteredAds, setFilteredAds] = useState([]);
-  const [filters, setFilters] = useState({});
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { ads, loading } = useSelector((state) => state.ads);
 
   useEffect(() => {
-    const fetchAds = async () => {
-      setLoading(true);
-      const adsData = await getLatestAds({});
-      setAds(adsData);
-      setFilteredAds(adsData);
-      setLoading(false);
-    };
-    fetchAds();
-  }, []);
+    dispatch(fetchAdsAndTags());
+  }, [dispatch]);
 
-  const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
-    let filtered = ads;
-
-    if (newFilters.name) {
-      const nameLowerCase = newFilters.name.toLowerCase();
-      filtered = filtered.filter((ad) =>
-        ad.name.toLowerCase().includes(nameLowerCase)
-      );
-    }
-
-    if (newFilters.priceMin) {
-      filtered = filtered.filter(
-        (ad) => ad.price >= parseFloat(newFilters.priceMin)
-      );
-    }
-
-    if (newFilters.priceMax) {
-      filtered = filtered.filter(
-        (ad) => ad.price <= parseFloat(newFilters.priceMax)
-      );
-    }
-
-    if (newFilters.tags && newFilters.tags.length > 0) {
-      filtered = filtered.filter((ad) =>
-        newFilters.tags.every((tag) => ad.tags.includes(tag))
-      );
-    }
-
-    if (newFilters.sale !== "") {
-      const sale = newFilters.sale === "true";
-      filtered = filtered.filter((ad) => ad.sale === sale);
-    }
-
-    setFilteredAds(filtered);
+  const handleFilterChange = () => {
+    // Lógica para filtrar anuncios aquí (opcional)
   };
 
   return (
@@ -80,9 +39,9 @@ function AdsPage() {
       <div className={styles.adsPage}>
         {loading ? (
           <p>Cargando anuncios...</p>
-        ) : filteredAds.length ? (
+        ) : ads.length ? (
           <ul className={`${styles.adsGrid} ${styles.adsContainer}`}>
-            {filteredAds.map((ad) => (
+            {ads.map((ad) => (
               <li key={ad.id} className={styles.adCard}>
                 <Link to={`/ads/${ad.id}`}>
                   <h5>{ad.name}</h5>
