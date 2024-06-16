@@ -1,5 +1,11 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { setAds, setTags, createAd } from "../actions/adActions";
+import {
+  fetchAdsAndTags,
+  setAds,
+  setTags,
+  createAd,
+  deleteAd,
+} from "../actions/adActions";
 
 const initialState = {
   ads: [],
@@ -18,15 +24,18 @@ const adReducer = createReducer(initialState, (builder) => {
     .addCase(createAd, (state, action) => {
       state.ads.push(action.payload.ad);
     })
-    .addCase("ads/fetchAdsAndTags/pending", (state) => {
+    .addCase(deleteAd.fulfilled, (state, action) => {
+      state.ads = state.ads.filter((ad) => ad.id !== action.meta.arg);
+    })
+    .addCase(fetchAdsAndTags.pending, (state) => {
       state.loading = true;
     })
-    .addCase("ads/fetchAdsAndTags/fulfilled", (state, action) => {
+    .addCase(fetchAdsAndTags.fulfilled, (state, action) => {
       state.ads = action.payload.ads;
       state.tags = action.payload.tags;
       state.loading = false;
     })
-    .addCase("ads/fetchAdsAndTags/rejected", (state) => {
+    .addCase(fetchAdsAndTags.rejected, (state) => {
       state.loading = false;
     });
 });

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./adsPage.module.css";
 import { fetchAdsAndTags } from "../../store/actions/adActions";
@@ -23,13 +23,52 @@ const EmptyList = () => (
 function AdsPage() {
   const dispatch = useDispatch();
   const { ads, loading } = useSelector((state) => state.ads);
+  const [filteredAds, setFilteredAds] = useState([]);
 
   useEffect(() => {
     dispatch(fetchAdsAndTags());
   }, [dispatch]);
 
-  const handleFilterChange = () => {
-    // Lógica para filtrar anuncios aquí (opcional)
+  useEffect(() => {
+    setFilteredAds(ads);
+  }, [ads]);
+
+  const handleFilterChange = (filters) => {
+    let filtered = ads;
+
+    if (filters.name) {
+      const nameLowerCase = filters.name.toLowerCase();
+      filtered = filtered.filter((ad) =>
+        filters.nameOption === "startsWith"
+          ? ad.name.toLowerCase().startsWith(nameLowerCase)
+          : ad.name.toLowerCase().includes(nameLowerCase)
+      );
+    }
+
+    if (filters.priceMin) {
+      filtered = filtered.filter(
+        (ad) => ad.price >= parseFloat(filters.priceMin)
+      );
+    }
+
+    if (filters.priceMax) {
+      filtered = filtered.filter(
+        (ad) => ad.price <= parseFloat(filters.priceMax)
+      );
+    }
+
+    if (filters.tags && filters.tags.length > 0) {
+      filtered = filtered.filter((ad) =>
+        filters.tags.every((tag) => ad.tags.includes(tag))
+      );
+    }
+
+    if (filters.sale !== "") {
+      const sale = filters.sale === "true";
+      filtered = filtered.filter((ad) => ad.sale === sale);
+    }
+
+    setFilteredAds(filtered);
   };
 
   return (
@@ -39,9 +78,9 @@ function AdsPage() {
       <div className={styles.adsPage}>
         {loading ? (
           <p>Cargando anuncios...</p>
-        ) : ads.length ? (
+        ) : filteredAds.length ? (
           <ul className={`${styles.adsGrid} ${styles.adsContainer}`}>
-            {ads.map((ad) => (
+            {filteredAds.map((ad) => (
               <li key={ad.id} className={styles.adCard}>
                 <Link to={`/ads/${ad.id}`}>
                   <h5>{ad.name}</h5>
