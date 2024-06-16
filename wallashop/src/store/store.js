@@ -1,8 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './reducers/index.js';
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./reducers/authReducer";
+import adReducer from "./reducers/adReducer";
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    auth: authReducer,
+    ads: adReducer,
+  },
 });
 
 export default store;

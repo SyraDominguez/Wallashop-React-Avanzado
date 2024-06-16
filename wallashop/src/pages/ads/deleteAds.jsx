@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Button from "../components/Button";
+import { deleteAdThunk } from "../../store/actions/adActions";
+import { useNavigate } from "react-router-dom";
+import Button from "../../components/button";
 import PropTypes from "prop-types";
-import { deleteAd } from "../store/actions/adActions";
 
 function DeleteAd({ adId, userId, createdBy }) {
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     const confirmed = window.confirm(
       "¿Estás seguro/a de que quieres borrar este anuncio?"
     );
@@ -22,18 +22,20 @@ function DeleteAd({ adId, userId, createdBy }) {
     setLoading(true);
 
     if (userId && userId === createdBy) {
-      try {
-        await dispatch(deleteAd(adId)).unwrap();
-        alert("Anuncio borrado correctamente");
-        history.push("/ads");
-      } catch (error) {
-        console.error("Error deleting ad:", error);
-        alert(
-          "Hubo un error al borrar el anuncio. Por favor, inténtalo de nuevo."
-        );
-      } finally {
-        setLoading(false);
-      }
+      dispatch(deleteAdThunk(adId))
+        .then(() => {
+          alert("Anuncio borrado correctamente");
+          navigate("/ads");
+        })
+        .catch((error) => {
+          console.error("Error deleting ad:", error);
+          alert(
+            "Hubo un error al borrar el anuncio. Por favor, inténtalo de nuevo."
+          );
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } else {
       alert("No tienes permiso para borrar este anuncio");
       setLoading(false);
