@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./form.module.css";
-import { createAd } from "../pages/ads/service";
 import { getTags } from "../service/tagService";
 
-export default function Form() {
+export default function Form({ onSubmit }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [tags, setTags] = useState([]);
@@ -52,14 +51,7 @@ export default function Form() {
     }
 
     try {
-      const response = await createAd(adData);
-      // console.log(response);
-      if (response && response.id) {
-        alert(`Anuncio creado con éxito`);
-        localStorage.setItem("lastAdId", response.id.toString());
-      } else {
-        alert("Anuncio creado con éxito, pero no se proporcionó un ID.");
-      }
+      await onSubmit(adData);
       resetForm();
       navigate("/ads");
     } catch (error) {

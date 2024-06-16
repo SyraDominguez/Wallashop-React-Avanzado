@@ -22,7 +22,6 @@ const EmptyList = () => (
 function AdsPage() {
   const [ads, setAds] = useState([]);
   const [filteredAds, setFilteredAds] = useState([]);
-  // eslint-disable-next-line no-unused-vars
   const [filters, setFilters] = useState({});
   const [loading, setLoading] = useState(true);
 

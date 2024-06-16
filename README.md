@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# Wallashop v1.1
+# Wallashop v2.0
 
 Practica Fundamentos React consistente en un clone de Wallapop hecho con React - Desarrollo Web XVI
 
@@ -29,6 +28,8 @@ Curiosidades:
 - **Deleting Ads**: Users can delete an ad if they are the creators of it.
 - **Geolocation**: The application uses the browser's geolocation API to obtain the user's location.
 - **Ad Age**: The age of the ad will be displayed to provide additional information about its relevance. (Not yet implemented).
+
+## Features Wallashop v2.0 (16/06/2024)
 
 ## Images of the application
 
