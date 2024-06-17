@@ -3,8 +3,10 @@ import Layout from "../../components/layout/layout";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../auth/context";
+import { useDispatch } from "react-redux";
 import styles from "./adDetailPage.module.css";
-import { getAd, deleteAd } from "./service";
+import { getAd } from "./service";
+import { deleteAdThunk } from "../../store/actions/adActions"; // Importar la acción
 import Button from "../../components/button";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import SuccessDialog from "../../components/SuccessDialog";
@@ -12,12 +14,13 @@ import SuccessDialog from "../../components/SuccessDialog";
 function AdDetailPage() {
   const params = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [ad, setAd] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const { isLogged } = useAuth();
+  const { isLogged, user } = useAuth();
 
   useEffect(() => {
     const fetchAd = async () => {
@@ -40,7 +43,7 @@ function AdDetailPage() {
 
   const handleDelete = async () => {
     try {
-      await deleteAd(ad.id);
+      await dispatch(deleteAdThunk(ad.id));
       setShowSuccess(true);
     } catch (error) {
       console.error("Error deleting ad:", error);
@@ -103,7 +106,7 @@ function AdDetailPage() {
       </div>
       {showConfirm && (
         <ConfirmDialog
-          message="¿De verdad que quieres eliminar este anuncio? Esta acción es IRREVERSIBLE"
+          message="¿De verdad quieres eliminar este anuncio? Esta acción es IRREVERSIBLE"
           onConfirm={confirmDelete}
           onCancel={closeConfirmDialog}
         />
