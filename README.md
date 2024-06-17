@@ -29,7 +29,45 @@ Curiosidades:
 - **Geolocation**: The application uses the browser's geolocation API to obtain the user's location.
 - **Ad Age**: The age of the ad will be displayed to provide additional information about its relevance. (Not yet implemented).
 
+## Recent Implementations (10.06.2024)
+
+- Protected all `adverts` routes using the `RequireAuth` component.
+- Removed unnecessary effect in `AuthContextProvider` to read from `localStorage`.
+- The list of tags is obtained from the API in the `Form` component.
+- Implemented at least two of the specified filters (name, buy/sell, price, tags).
+- Filtering by name, with the option 'contains' and 'starts with', and filtering by price is done from the frontend.
+- After creating an ad, the website redirects the user to the ad detail page.
+- Modified `ads/service.js` to use Axios to handle `multipart/form-data` when creating an ad.
+- Added a `ConfirmDialog` component for ad deletion confirmation and logout.
+- Configured user session persistence when reloading the page.
+- Implemented "Remember Me" functionality in the login.
+- Added checkbox for "Remember Me" functionality in the login form.
+- Email and "Remember Me" preferences are stored in `localStorage` if the checkbox is checked.
+- Updated `AuthContext` to retain saved email even after logout.
+- Ensured that the email field is pre-filled on the login page if "Remember Me" was previously selected.
+- Added loading and error state handling in `AdDetailPage`.
+- Improved user experience with loading state on the page.
+- Ensured that the user's session remains active until the user logs out.
+- Optimized redirection to the 404 not found page.
+
 ## Features Wallashop v2.0 (16/06/2024)
+
+Integrate Redux for authentication and advertisements management
+
+- Added Redux store configuration
+- Implemented login and logout actions with Redux
+- Updated LoginPage to dispatch login action
+- Updated AuthButton to dispatch logout action
+- Ensured user and token are stored and cleared in Redux state
+- Verified login and logout functionality with Redux DevTools
+- Added actions for fetching, creating, and deleting advertisements
+- Integrated thunk for asynchronous operations
+- Implemented adsReducer to handle advertisement-related actions
+- Created adActions file to define advertisement actions
+- Updated AdsPage to fetch and display advertisements using Redux
+- Added FilterForm component to filter advertisements
+- Implemented advertisement detail page with delete functionality
+- Verified advertisement CRUD operations with Redux DevTools
 
 ## Images of the application
 
@@ -109,27 +147,6 @@ Additionally, the application adjusts its interface depending on whether the use
 The application detects the screens where the user is located, showing different information based on their location. For example, if the user is logged in, they will see the Logout button, but if they are not logged in, they will see the Login button.
 
 The application distinguishes whether the user is logged in or not. If the user is not logged in and tries to perform an action reserved for registered users, they are redirected to the login screen. After logging in, they are redirected back to the screen they originally requested.
-
-## Recent Implementations (10.06.2024)
-
-- Protected all `adverts` routes using the `RequireAuth` component.
-- Removed unnecessary effect in `AuthContextProvider` to read from `localStorage`.
-- The list of tags is obtained from the API in the `Form` component.
-- Implemented at least two of the specified filters (name, buy/sell, price, tags).
-- Filtering by name, with the option 'contains' and 'starts with', and filtering by price is done from the frontend.
-- After creating an ad, the website redirects the user to the ad detail page.
-- Modified `ads/service.js` to use Axios to handle `multipart/form-data` when creating an ad.
-- Added a `ConfirmDialog` component for ad deletion confirmation and logout.
-- Configured user session persistence when reloading the page.
-- Implemented "Remember Me" functionality in the login.
-- Added checkbox for "Remember Me" functionality in the login form.
-- Email and "Remember Me" preferences are stored in `localStorage` if the checkbox is checked.
-- Updated `AuthContext` to retain saved email even after logout.
-- Ensured that the email field is pre-filled on the login page if "Remember Me" was previously selected.
-- Added loading and error state handling in `AdDetailPage`.
-- Improved user experience with loading state on the page.
-- Ensured that the user's session remains active until the user logs out.
-- Optimized redirection to the 404 not found page.
 
 ## Contributions
 We welcome contributions from the community! If you'd like to contribute to the project, please follow these steps:
