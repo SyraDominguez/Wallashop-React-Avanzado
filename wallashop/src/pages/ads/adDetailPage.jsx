@@ -20,7 +20,7 @@ function AdDetailPage() {
   const [error, setError] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const { isLogged, user } = useAuth();
+  const { isLogged } = useAuth();
 
   useEffect(() => {
     const fetchAd = async () => {

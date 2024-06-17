@@ -25,10 +25,14 @@ function AdsPage() {
   const { ads, loading } = useSelector((state) => state.ads);
   const [filteredAds, setFilteredAds] = useState([]);
 
+  // Carga anuncios y tags solo si el array de anuncios está vacío
   useEffect(() => {
-    dispatch(fetchAdsAndTags());
-  }, [dispatch]);
+    if (ads.length === 0) {
+      dispatch(fetchAdsAndTags());
+    }
+  }, [dispatch, ads.length]);
 
+  // Sincronizar el estado local de los anuncios filtrados con los anuncios en Redux
   useEffect(() => {
     setFilteredAds(ads);
   }, [ads]);
