@@ -1,8 +1,12 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-import svgr from 'vite-plugin-svgr';
+// vite.config.js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
+import EnvironmentPlugin from 'vite-plugin-environment';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), svgr()]
-})
+  plugins: [
+    react(),
+    EnvironmentPlugin('all', { prefix: 'VITE_' }),
+  ],
+});

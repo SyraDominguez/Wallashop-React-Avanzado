@@ -1,8 +1,7 @@
-Object.defineProperty(global, 'importMeta', {
-  value: {
-    env: {
-      VITE_API_URLBASE: 'http://localhost:3001'
-    }
-  },
-  writable: true
-});
+// jest.setup.js
+import fetchMock from 'jest-fetch-mock';
+import dotenv from 'dotenv';
+
+dotenv.config({ path: '.env.test' });
+
+fetchMock.enableMocks();

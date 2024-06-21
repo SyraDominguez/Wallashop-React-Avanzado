@@ -1,7 +1,13 @@
+// src/api/client.js
 import axios from "axios";
 
+const baseURL = import.meta.env.VITE_API_URLBASE;
+
 export const client = axios.create({
-  baseURL: import.meta.env.VITE_API_URLBASE,
+  baseURL,
+  headers: {
+    'Content-Type': 'application/json'
+  }
 });
 
 client.interceptors.response.use(response => response.data, error => {
