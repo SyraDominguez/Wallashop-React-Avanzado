@@ -1,4 +1,4 @@
-// src/pages/ads/service.js
+
 import { client } from "../../api/client";
 
 const adsUrl = 'api/v1/adverts';
@@ -25,7 +25,6 @@ export const getLatestAds = (filters = {}) => {
 };
 
 export const createAd = (adData) => {
-  // Aquí no se especifica el tipo de contenido porque FormData se encarga de ello
   return client.post(adsUrl, adData, {
     headers: {
       'Content-Type': 'multipart/form-data'

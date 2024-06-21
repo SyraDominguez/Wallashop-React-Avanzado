@@ -1,4 +1,3 @@
-// src/components/Form.jsx
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -60,12 +59,11 @@ export default function Form() {
       if (response && response.id) {
         dispatch(createAd({ ad: response }));
         alert(`Anuncio creado con éxito`);
-        localStorage.setItem("lastAdId", response.id.toString());
-      } else {
+        resetForm();
+        navigate(`/ads/${response.id}`);
         alert("Anuncio creado con éxito, pero no se proporcionó un ID.");
+        navigate("/ads");
       }
-      resetForm();
-      navigate("/ads");
     } catch (error) {
       console.error("Error al crear el anuncio:", error);
       alert("Hubo un error al crear el anuncio. Inténtalo de nuevo más tarde.");
