@@ -50,9 +50,9 @@ Curiosidades:
 - Ensured that the user's session remains active until the user logs out.
 - Optimized redirection to the 404 not found page.
 
-## Features Wallashop v2.0 (16/06/2024)
+## Features Wallashop v2.0 (21/06/2024)
 
-Integrate Redux for authentication and advertisements management
+### Integrate Redux for authentication and advertisements management
 
 - Added Redux store configuration
 - Implemented login and logout actions with Redux
@@ -68,6 +68,48 @@ Integrate Redux for authentication and advertisements management
 - Added FilterForm component to filter advertisements
 - Implemented advertisement detail page with delete functionality
 - Verified advertisement CRUD operations with Redux DevTools
+
+### Testing
+- Add Jest configuration and setup files for unit testing + unit test for synchronous action `adActionsSync.test.js`
+- Add unit test for async action in authActions `authActionsAsync.test.js`
+- Add unit test for reducer `adReducer.test.js`
+- Add unit tests for selectors `selectors.test.js`
+- Add snapshot test for Form component `form.test.js`
+- Add unit test for component with mocked store action `someComponent.test.js`
+
+```shell
+╰─ npm test
+
+> wallashop@0.0.0 test
+> jest
+
+ PASS  __test__/adReducer.test.js
+ PASS  __test__/authActionsAsync.test.js
+ PASS  __test__/adActionsSync.test.js
+ PASS  __test__/selectors.test.js
+ PASS  __test__/form.test.js
+ PASS  __test__/someComponent.test.js
+  ● Console
+
+    console.log
+      Login button clicked
+
+      at handleLogin (src/components/SomeComponent.jsx:11:13)
+
+    console.log
+      Logout button clicked
+
+      at handleLogout (src/components/SomeComponent.jsx:17:13)
+
+
+Test Suites: 6 passed, 6 total
+Tests:       15 passed, 15 total
+Snapshots:   1 passed, 1 total
+Time:        1.939 s
+Ran all test suites.
+
+```
+
 
 ## Images of the application
 
@@ -94,47 +136,138 @@ The application runs on `http://localhost:5173`.
 
 ## Project Structure
 
-``` 
-Wallashop-React/
-├── node_modules/          # Project dependencies
-├── public/                # Static public assets
-│   └── index.html         # HTML template
-├── src/                   # Source code
-│   ├── api/               # API configuration and client setup
-│   │   └── client.js
-│   ├── assets/            # Image and other asset files
-│   ├── components/        # Reusable components
-│   │   ├── Button.jsx
-│   │   ├── ConfirmDialog.jsx
-│   │   ├── DateTime.jsx
-│   │   ├── FilterForm.jsx
-│   │   ├── layout/        # Layout components
-│   │   │   └── layout.jsx
-│   │   └── ...            # Other components
-│   ├── pages/             # Page components
-│   │   ├── ads/           # Ads-related pages
-│   │   │   ├── adsPage.jsx
-│   │   │   ├── adDetailPage.jsx
-│   │   │   ├── deleteAds.jsx
-│   │   │   └── service.js
-│   │   ├── auth/          # Authentication-related pages
-│   │   │   ├── context.jsx
-│   │   │   ├── loginPage.jsx
-│   │   │   ├── RequireAuth.jsx
-│   │   │   └── service.js
-│   │   └── ...            # Other pages
-│   ├── services/          # Services for API calls and other functionalities
-│   │   └── tagService.js
-│   ├── styles/            # Global styles and CSS files
-│   ├── App.jsx            # Main application component
-│   ├── main.jsx           # Entry point for React application
-│   └── storage.js         # Utility for local storage handling
-├── .eslintrc.js           # ESLint configuration
-├── vite.config.js         # Vite configuration
-├── package.json           # Project metadata and dependencies
-└── README.md              # Project documentation
+
+```shell
+Wallashop
+├── public/
+│   ├── index.html
+│   ├── favicon.ico
+│   └── assets/
+│       ├── logo.png
+│       └── ... (otros archivos de activos)
+├── src/
+│   ├── components/
+│   │   ├── SomeComponent.jsx
+│   │   ├── Form.jsx
+│   │   ├── Header.jsx
+│   │   ├── Footer.jsx
+│   │   ├── AdList.jsx
+│   │   └── ... (otros componentes)
+│   ├── containers/
+│   │   ├── HomeContainer.jsx
+│   │   ├── AdContainer.jsx
+│   │   └── ... (otros contenedores)
+│   ├── pages/
+│   │   ├── HomePage.jsx
+│   │   ├── AdPage.jsx
+│   │   ├── LoginPage.jsx
+│   │   └── ... (otras páginas)
+│   ├── hooks/
+│   │   └── useAuth.js
+│   ├── services/
+│   │   └── api.js
+│   ├── store/
+│   │   ├── actions/
+│   │   │   ├── authActions.js
+│   │   │   ├── adActions.js
+│   │   │   └── ... (otros archivos de acciones)
+│   │   ├── reducers/
+│   │   │   ├── authReducer.js
+│   │   │   ├── adReducer.js
+│   │   │   └── ... (otros archivos de reductores)
+│   │   ├── selectors/
+│   │   │   ├── authSelectors.js
+│   │   │   ├── adSelectors.js
+│   │   │   └── ... (otros selectores)
+│   │   ├── store.js
+│   │   └── ... (otros archivos relacionados con la store)
+│   ├── styles/
+│   │   ├── main.css
+│   │   └── ... (otros archivos de estilo)
+│   ├── App.jsx
+│   ├── index.js
+│   └── ... (otros archivos fuente)
+├── __test__/
+│   ├── authActionsAsync.test.js
+│   ├── someComponent.test.js
+│   ├── form.test.js
+│   ├── selectors.test.js
+│   ├── adReducer.test.js
+│   ├── adActionsSync.test.js
+│   └── ... (otros archivos de prueba)
+├── .babelrc
+├── .eslintrc.js
+├── jest.config.cjs
+├── jest.setup.js
+├── package.json
+├── README.md
+├── vite.config.js
+└── ... (otros archivos de configuración y documentación)
+
 ```
 
+### Detailed Description
+
+**public/**: Static files served directly.
+
+- **index.html**: Main HTML of the application.
+- **favicon.ico**: Application icon.
+- **assets/**: Folder for static assets like images.
+  - **logo.png**: Example of an image file.
+
+**src/**: Main source code folder.
+
+- **components/**: Reusable components of the application.
+  - **SomeComponent.jsx**: Example of a component.
+  - **Form.jsx**: Form component.
+  - **Header.jsx**: Header component.
+  - **Footer.jsx**: Footer component.
+  - **AdList.jsx**: Component to list ads.
+- **containers/**: Containers that connect components to the Redux store.
+  - **HomeContainer.jsx**: Container for the main page.
+  - **AdContainer.jsx**: Container for the ads page.
+- **pages/**: Components for full pages.
+  - **HomePage.jsx**: Main page.
+  - **AdPage.jsx**: Ads page.
+  - **LoginPage.jsx**: Login page.
+- **hooks/**: Custom React hooks.
+  - **useAuth.js**: Hook for authentication.
+- **services/**: Services for API communication.
+  - **api.js**: File for API calls.
+- **store/**: Redux structure.
+  - **actions/**: Redux actions.
+    - **authActions.js**: Authentication actions.
+    - **adActions.js**: Ad actions.
+  - **reducers/**: Redux reducers.
+    - **authReducer.js**: Authentication reducer.
+    - **adReducer.js**: Ad reducer.
+  - **selectors/**: Redux selectors.
+    - **authSelectors.js**: Authentication selectors.
+    - **adSelectors.js**: Ad selectors.
+  - **store.js**: Redux store configuration.
+- **styles/**: Style files.
+  - **main.css**: Main styles.
+- **App.jsx**: Main application component.
+- **index.js**: Application entry point.
+
+**__test__/**: Test files.
+
+- **authActionsAsync.test.js**: Tests for asynchronous authentication actions.
+- **someComponent.test.js**: Tests for the SomeComponent component.
+- **form.test.js**: Tests for the Form component.
+- **selectors.test.js**: Tests for selectors.
+- **adReducer.test.js**: Tests for the ad reducer.
+- **adActionsSync.test.js**: Tests for synchronous ad actions.
+
+**Configurations and other files**: Configuration and documentation files.
+
+- **.babelrc**: Babel configuration.
+- **.eslintrc.js**: ESLint configuration.
+- **jest.config.cjs**: Jest configuration.
+- **jest.setup.js**: Jest setup files.
+- **package.json**: Project dependencies and scripts.
+- **README.md**: Project documentation.
+- **vite.config.js**: Vite configuration.
 
 ## Application Status
 
