@@ -1,4 +1,3 @@
-
 jest.mock('../src/api/client', () => {
   return {
     client: {

@@ -1,4 +1,4 @@
-// wallashop/__test__/adReducer.test.js
+
 import adReducer from '../src/store/reducers/adReducer';
 import { setAds, setTags, createAd, deleteAd } from '../src/store/actions/adActions';
 
