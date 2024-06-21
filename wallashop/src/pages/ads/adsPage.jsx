@@ -7,7 +7,7 @@ import DateTime from "../../components/date";
 import { Link } from "react-router-dom";
 import Layout from "../../components/layout/layout";
 import FilterForm from "../../components/FilterForm";
-import { getAds } from "../../store/selectors/selectors"; // Asegúrate de usar selectores
+import { getAds } from "../../store/selectors/selectors"; 
 
 const EmptyList = () => (
   <div className={styles.emptyList}>
