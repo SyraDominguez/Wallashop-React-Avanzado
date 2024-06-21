@@ -3,43 +3,42 @@ import Layout from "../../components/layout/layout";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../auth/context";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./adDetailPage.module.css";
 import { getAd } from "./service";
-import { deleteAdThunk } from "../../store/actions/adActions"; // Importar la acción
+import { deleteAdThunk } from "../../store/actions/adActions";
 import Button from "../../components/button";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import SuccessDialog from "../../components/SuccessDialog";
+import { getAdById } from "../../store/selectors/selectors";
 
 function AdDetailPage() {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [ad, setAd] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const { isLogged } = useAuth();
+  const ad = useSelector((state) => getAdById(state, params.adsId));
 
   useEffect(() => {
-    const fetchAd = async () => {
-      try {
-        const adData = await getAd(params.adsId);
-        if (!adData) {
-          throw new Error("Ad not found");
-        }
-        setAd(adData);
-      } catch (error) {
-        setError(error);
-        navigate("/not-found");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAd();
-  }, [params.adsId, navigate]);
+    if (!ad) {
+      getAd(params.adsId)
+        .then((adData) => {
+          if (!adData) {
+            throw new Error("Ad not found");
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          setError(error);
+        });
+    } else {
+      setLoading(false);
+    }
+  }, [params.adsId, ad]);
 
   const handleDelete = async () => {
     try {
@@ -50,6 +49,12 @@ function AdDetailPage() {
       alert("Error al eliminar el anuncio. Inténtalo de nuevo más tarde.");
     }
   };
+
+  useEffect(() => {
+    if (showSuccess) {
+      navigate("/ads");
+    }
+  }, [showSuccess, navigate]);
 
   const openConfirmDialog = () => {
     setShowConfirm(true);
@@ -64,17 +69,16 @@ function AdDetailPage() {
     handleDelete();
   };
 
-  const closeSuccessDialog = () => {
-    setShowSuccess(false);
-    navigate("/ads");
-  };
-
   if (loading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return null;
+    return <div>Anuncio no encontrado</div>;
+  }
+
+  if (!ad) {
+    return <div>Anuncio no encontrado</div>;
   }
 
   return (
@@ -114,7 +118,7 @@ function AdDetailPage() {
       {showSuccess && (
         <SuccessDialog
           message="Anuncio borrado correctamente"
-          onClose={closeSuccessDialog}
+          onClose={() => navigate("/ads")}
         />
       )}
     </Layout>

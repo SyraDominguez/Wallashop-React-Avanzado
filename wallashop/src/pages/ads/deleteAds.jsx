@@ -25,7 +25,7 @@ function DeleteAd({ adId, userId, createdBy }) {
       dispatch(deleteAdThunk(adId))
         .then(() => {
           alert("Anuncio borrado correctamente");
-          navigate("/ads");
+          navigate("/ads"); // Asegúrate de navegar después de borrar
         })
         .catch((error) => {
           console.error("Error deleting ad:", error);

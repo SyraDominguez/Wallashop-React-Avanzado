@@ -7,6 +7,7 @@ import DateTime from "../../components/date";
 import { Link } from "react-router-dom";
 import Layout from "../../components/layout/layout";
 import FilterForm from "../../components/FilterForm";
+import { getAds } from "../../store/selectors/selectors"; // Asegúrate de usar selectores
 
 const EmptyList = () => (
   <div className={styles.emptyList}>
@@ -22,17 +23,16 @@ const EmptyList = () => (
 
 function AdsPage() {
   const dispatch = useDispatch();
-  const { ads, loading } = useSelector((state) => state.ads);
+  const ads = useSelector(getAds); // Usa el selector
+  const loading = useSelector((state) => state.ads.loading);
   const [filteredAds, setFilteredAds] = useState([]);
 
-  // Carga anuncios y tags solo si el array de anuncios está vacío
   useEffect(() => {
     if (ads.length === 0) {
       dispatch(fetchAdsAndTags());
     }
   }, [dispatch, ads.length]);
 
-  // Sincronizar el estado local de los anuncios filtrados con los anuncios en Redux
   useEffect(() => {
     setFilteredAds(ads);
   }, [ads]);
