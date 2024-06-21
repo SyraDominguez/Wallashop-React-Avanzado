@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form component should render correctly and match snapshot 1`] = `
+<DocumentFragment>
+  <form
+    class="newAdsPage"
+  >
+    <h3>
+      Crear un nuevo anuncio
+    </h3>
+    <div>
+      <label
+        for="name"
+      >
+        Nombre:
+      </label>
+      <input
+        id="name"
+        placeholder="Filtra por Nombre"
+        required=""
+        type="text"
+        value=""
+      />
+    </div>
+    <div>
+      <label
+        for="price"
+      >
+        Precio:
+      </label>
+      <input
+        id="price"
+        placeholder="Filtra por Precio"
+        required=""
+        type="text"
+        value=""
+      />
+    </div>
+    <div>
+      <label>
+        <input
+          type="checkbox"
+        />
+        Incluir foto del artículo?
+      </label>
+    </div>
+    <div
+      class="photoPlaceholder"
+    >
+      <p>
+        ¡No has incluido una foto!
+      </p>
+    </div>
+    <div>
+      <label>
+        Tags:
+      </label>
+    </div>
+    <div>
+      <label>
+        <input
+          checked=""
+          name="sale"
+          type="radio"
+          value="true"
+        />
+        Venta
+      </label>
+      <label>
+        <input
+          name="sale"
+          type="radio"
+          value="false"
+        />
+        Compra
+      </label>
+    </div>
+    <button
+      type="submit"
+    >
+      Crear anuncio
+    </button>
+    <button
+      type="reset"
+    >
+      Borrar
+    </button>
+  </form>
+</DocumentFragment>
+`;

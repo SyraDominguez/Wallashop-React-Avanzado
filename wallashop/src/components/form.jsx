@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import styles from "./form.module.css";
+import styles from "../components/form.module.css";
 import { createAd as createAdService } from "../pages/ads/service";
 import { createAd } from "../store/actions/adActions";
 import { getTags as fetchTags } from "../service/tagService";
@@ -61,6 +61,7 @@ export default function Form() {
         alert(`Anuncio creado con éxito`);
         resetForm();
         navigate(`/ads/${response.id}`);
+      } else {
         alert("Anuncio creado con éxito, pero no se proporcionó un ID.");
         navigate("/ads");
       }
