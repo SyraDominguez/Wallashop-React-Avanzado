@@ -70,12 +70,76 @@ Curiosidades:
 - Verified advertisement CRUD operations with Redux DevTools
 
 ### Testing
-- Add Jest configuration and setup files for unit testing + unit test for synchronous action `adActionsSync.test.js`
-- Add unit test for async action in authActions `authActionsAsync.test.js`
-- Add unit test for reducer `adReducer.test.js`
-- Add unit tests for selectors `selectors.test.js`
-- Add snapshot test for Form component `form.test.js`
-- Add unit test for component with mocked store action `someComponent.test.js`
+1.  Add Jest configuration and setup files for unit testing + unit test for synchronous action `adActionsSync.test.js`
+2. Add unit test for async action in authActions `authActionsAsync.test.js`
+3. Add unit test for reducer `adReducer.test.js`
+4. Add unit tests for selectors `selectors.test.js`
+5. Add snapshot test for Form component `form.test.js`
+6. Add unit test for component with mocked store action `someComponent.test.js`
+
+
+
+#### 1. `adActionsSync.test.js`
+
+This file tests synchronous actions related to ads (`ads`). Here's what it does:
+
+- **API Client Mocking**: Uses Jest to mock the API client and its methods (`get`, `post`, `delete`), along with functions to set and remove authorization headers.
+  
+- **`setAds` Test**: Verifies that the `setAds` action from the store returns the expected action to set ads.
+
+#### 2. `adReducer.test.js`
+
+This file tests the ad (`ads`) reducer. Here are the key points:
+
+- **Initial State**: Defines the initial state of the reducer for ads, tags, and loading.
+
+- **Action Tests**:
+  - `setAds`: Checks that the reducer handles the `setAds` action correctly.
+  - `setTags`: Checks that the reducer handles the `setTags` action correctly.
+  - `createAd`: Verifies that the reducer handles the `createAd` action correctly by adding a new ad.
+  - `deleteAd`: Verifies that the reducer handles the `deleteAd` action correctly by removing an existing ad.
+
+#### 3. `authActionsAsync.test.js`
+
+This file tests asynchronous actions related to authentication (`auth`). Here's a summary:
+
+- **Mock Store Setup**: Configures a mock store using `redux-mock-store` with `redux-thunk` middleware.
+
+- **Axios Mocking**: Mocks API calls using `axios`.
+
+- **Async Action Tests**:
+  - `fetchAds`: Tests that the appropriate actions (`FETCH_ADS_REQUEST`, `FETCH_ADS_SUCCESS`, or `FETCH_ADS_FAILURE`) are dispatched based on the result of fetching ads.
+
+#### 4. `form.test.js`
+
+This file tests the form component (`Form`) using `@testing-library/react`. Here are the details:
+
+- **Mock Store Configuration**: Configures a mock store using `redux-mock-store`.
+
+- **Rendering and Snapshot**: Ensures that the `Form` component renders correctly and matches the expected snapshot.
+
+#### 5. `selectors.test.js`
+
+This file tests storage selectors related to ads (`ads`). Here's the summary:
+
+- **Simulated State**: Defines a simulated state containing ads and tags.
+
+- **Selector Tests**:
+  - `getAds`: Verifies that the `getAds` selector returns all ads from the state.
+  - `getTags`: Verifies that the `getTags` selector returns all tags from the state.
+  - `getAdById`: Checks that the `getAdById` selector returns a specific ad by its ID or `undefined` if not found.
+
+#### 6. `someComponent.test.js`
+
+This file tests the `SomeComponent` component, which interacts with storage and authentication actions (`auth`). Here are the key points:
+
+- **Authentication Action Mocking**: Uses Jest to mock login and logout actions from storage.
+
+- **Interaction Tests**:
+  - `login`: Verifies that the login action is dispatched correctly when clicking the login button.
+  - `logout`: Verifies that the logout action is dispatched correctly when clicking the logout button.
+
+These test files collectively ensure the functionality and integration of various parts of the application, from actions and reducers to components and asynchronous API calls. 
 
 ```shell
 ╰─ npm test
